@@ -21,7 +21,7 @@ function create() {
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    game.stage.backgroundColor = '#2d2d2d';
+    game.stage.backgroundColor = '#124184';
 
     enemies = game.add.group();
     enemies.createMultiple(1, 'goodFish', 0, false);
@@ -43,11 +43,11 @@ function create() {
 
     game.physics.arcade.enable([ enemies, sprite2 ], Phaser.Physics.ARCADE);
 
-    // game.add.tween(sprite1.body).to( { y: 700 }, 5000, Phaser.Easing.Linear.None, true);
+    upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
     leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
     rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
 
-    game.time.events.loop(Phaser.Timer.SECOND, updateCounter, this);
+    game.time.events.loop(Phaser.Timer.HALF, updateCounter, this);
 
 }
 function resurrect() {
@@ -57,12 +57,12 @@ function resurrect() {
     //  creating new ones using the following arguments:
 
     var x = Math.floor(Math.random() * 3) * 150;
-    console.log(x);
     var y = 0;
     var key = 'goodFish';
     var frame = game.rnd.between(0, 36);
 
     enemies.getFirstDead(true, x, y, key, frame);
+    game.physics.arcade.enable([ enemies, sprite2 ], Phaser.Physics.ARCADE);
 
 }
 
@@ -75,6 +75,19 @@ function updateCounter() {
 
 
 function update() {
+    if(upKey.isDown){
+        if(pressTime != upKey.timeDown) {
+            for (var i = 0; i < enemies.children.length; i++) {
+                enemies.children[i].position.y += 100;
+            }
+            pressTime = upKey.timeDown;
+            resurrect();
+            if(health <= 99) {
+                health = health + 2;
+            }
+            updateCounter();
+        }
+    }
     if (leftKey.isDown){
         if(pressTime != leftKey.timeDown) {
             if(sprite2.x <= 150) {
@@ -121,14 +134,16 @@ function update() {
         }
     }
     for (var i = 0; i < enemies.children.length; i++) {
-        console.log("checking all shitty peeops")
+        if(enemies.children[i].position.y >= 800) {
+            enemies.children[i].kill();
+        }
         game.physics.arcade.overlap(enemies.children[i], sprite2, overlapHandler, null, this);
     }
     // game.physics.arcade.overlap(enemies, sprite2, overlapHandler, null, this);
 }
 
 function overlapHandler (obj1, obj2) {
-    console.log("something happened");
+    console.log(obj1);
     health = 0;
      game.stage.backgroundColor = '#992d2d';
     obj2.kill();
