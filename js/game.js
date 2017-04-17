@@ -56,7 +56,7 @@ function resurrect() {
     //  so those will be re-used first and then it will start
     //  creating new ones using the following arguments:
 
-    var x = game.world.randomX;
+    var x = Math.floor(Math.random() * 3) * 150;
     console.log(x);
     var y = 0;
     var key = 'goodFish';
@@ -68,9 +68,7 @@ function resurrect() {
 
 
 function updateCounter() {
-
-    health--;
-
+    health --;
     text.setText('Counter: ' + health);
 
 }
@@ -79,56 +77,64 @@ function updateCounter() {
 function update() {
     if (leftKey.isDown){
         if(pressTime != leftKey.timeDown) {
-            pressTime = leftKey.timeDown;
             if(sprite2.x <= 150) {
                 sprite2.x = 0;
                 for (var i = 0; i < enemies.children.length; i++) {
-                    enemies.children[i].position.y += 20;
+                    enemies.children[i].position.y += 100;
                 }
             }
             else{
                 sprite2.x = sprite2.x - 150;
                 for (var i = 0; i < enemies.children.length; i++) {
-                    enemies.children[i].position.y += 20;
+                    enemies.children[i].position.y += 100;
                 }
 
             }
+            pressTime = leftKey.timeDown;
             resurrect();
+            if(health <= 99) {
+                health = health + 2;
+            }
+            updateCounter();
         }
     }
     else if (rightKey.isDown) {
         if(pressTime != rightKey.timeDown) {
-            pressTime = rightKey.timeDown;
-            resurrect();
             if(sprite2.x >= 150){
                 sprite2.x = 300
                 for (var i = 0; i < enemies.children.length; i++) {
-                    enemies.children[i].position.y += 20;
+                    enemies.children[i].position.y += 100;
                  }
             }
             else {
                 sprite2.x = sprite2.x + 150;
                 for (var i = 0; i < enemies.children.length; i++) {
-                    enemies.children[i].position.y += 20;
+                    enemies.children[i].position.y += 100;
                 }
             }
+            pressTime = rightKey.timeDown;
+            resurrect();
+            if(health >= 99) {
+                health = 101;
+            }
+            updateCounter();
         }
     }
-    game.physics.arcade.overlap(enemies, sprite2, overlapHandler, null, this);
-
+    for (var i = 0; i < enemies.children.length; i++) {
+        console.log("checking all shitty peeops")
+        game.physics.arcade.overlap(enemies.children[i], sprite2, overlapHandler, null, this);
+    }
+    // game.physics.arcade.overlap(enemies, sprite2, overlapHandler, null, this);
 }
 
 function overlapHandler (obj1, obj2) {
-
+    console.log("something happened");
+    health = 0;
      game.stage.backgroundColor = '#992d2d';
-
     obj2.kill();
 
 }
 
 function render() {
-
-    // game.debug.spriteInfo(sprite1,20,32);
-    // game.debug.spriteInfo(sprite2,20,32);
 
 }
