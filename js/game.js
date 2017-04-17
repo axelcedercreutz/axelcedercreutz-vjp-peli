@@ -1,7 +1,7 @@
 var game = new Phaser.Game(400, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
 function preload() {
-     game.load.atlasJSONHash('bot', 'assets/running_bot.png', 'assets/running.json');
+     game.load.spritesheet('badFish', 'assets/running_bot.png', 60, 60, 20);
     // game.load.image('badFish', 'assets/bad_fish.png');
     game.load.image('goodFish', 'assets/good_fish.png');
 
@@ -19,20 +19,20 @@ function create() {
 
     game.stage.backgroundColor = '#2d2d2d';
 
-    sprite1 = game.add.sprite(10,0, 'badFish');
+    sprite1 = game.add.sprite(0,0, 'badFish');
     sprite2 = game.add.sprite(100, 530, 'goodFish');
 
-    //  sprite1.anchor.setTo(0.5, 0.5);
+      // sprite1.anchor.setTo(0.5, 0.5);
     // sprite2.anchor.setTo(0.5,0.5);
 
-    //  sprite1.scale.setTo(2, 2);
+     sprite1.scale.setTo(2, 2);
     // sprite2.scale.setTo(2,2);
 
     sprite1.animations.add('run');
-    sprite2.animations.add('run');
+    // sprite2.animations.add('run');
 
     sprite1.animations.play('run', 10, true);
-    sprite2.animations.play('run', 10, true);
+    // sprite2.animations.play('run', 10, true);
 
     game.physics.arcade.enable([ sprite1, sprite2 ], Phaser.Physics.ARCADE);
 
