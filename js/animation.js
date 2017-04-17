@@ -1,12 +1,12 @@
 $(document).ready( function(){
 	//array for highscore names
-	var names = [];
+	// var names = [];
 	//array for highscore scores
-	var scores = [];
+	// var scores = [];
 	//object for names-scores
-	var bothNameScore = {};
+	// var bothNameScore = {};
 	//load from localStorage
-    loadSettings();
+    // loadSettings();
     //creating the canvas
 	var canvas = document.createElement('canvas');
 	//giving the canvas a id
@@ -14,9 +14,9 @@ $(document).ready( function(){
 	//giving the context
 	var ctx = canvas.getContext("2d");
 	//setting canvas width
-	canvas.width = 800;
+	canvas.width = 400;
 	//setting canvas height
-	canvas.height = 600;
+	canvas.height = 800;
 	//adding the canvas to the body
 	document.body.appendChild(canvas);
 
@@ -156,11 +156,11 @@ $(document).ready( function(){
 		drawButtons(buttons);
 		if(countGameOver === 0) {
 			//makes you add your name to the scoreboard
-			var name = prompt("Add your name to your score to the scoreboard!", "");
-			names.push(name);
-			scores.push(frameNo);
-			localStorage.setItem("names", JSON.stringify(names));
-			localStorage.setItem("scores", JSON.stringify(scores));
+			// var name = prompt("Add your name to your score to the scoreboard!", "");
+			// names.push(name);
+			// scores.push(frameNo);
+			// localStorage.setItem("names", JSON.stringify(names));
+			// localStorage.setItem("scores", JSON.stringify(scores));
 		}
 		//adds to the counter so that the prompt wont be popping up constantly
 		countGameOver ++;
@@ -168,82 +168,68 @@ $(document).ready( function(){
 		keysDown = {};
 	};
 	//loading the names & scores from localStorage, then 
-	function loadSettings () {
-		if(localStorage.names !== undefined && localStorage.scores !== undefined) {
-			var returnedNames = (JSON.parse(localStorage.names));
-			var returnedScores = (JSON.parse(localStorage.scores));
+	// function loadSettings () {
+	// 	if(localStorage.names !== undefined && localStorage.scores !== undefined) {
+	// 		var returnedNames = (JSON.parse(localStorage.names));
+	// 		var returnedScores = (JSON.parse(localStorage.scores));
 			
-			console.log(returnedNames);
-			console.log(returnedScores);
-			var newSomething = [];
-        	for (var i = 0; i < returnedNames.length; i++) {
-	    		names.push(returnedNames[i]);
-	    		scores.push(returnedScores[i]);
-	    	}
-	    	var bothNameScore = toObject(names,scores);
-	    	var sortable = [];
-			for (var name in bothNameScore) {
-			    sortable.push([name, bothNameScore[name]]);
-			}
-			sortable.sort(function(a, b) {
-			    return b[1] - a[1];
-			});
-	    	writeTable(sortable);
-	    }
-	}
+	// 		console.log(returnedNames);
+	// 		console.log(returnedScores);
+	// 		var newSomething = [];
+ //        	for (var i = 0; i < returnedNames.length; i++) {
+	//     		names.push(returnedNames[i]);
+	//     		scores.push(returnedScores[i]);
+	//     	}
+	//     	var bothNameScore = toObject(names,scores);
+	//     	var sortable = [];
+	// 		for (var name in bothNameScore) {
+	// 		    sortable.push([name, bothNameScore[name]]);
+	// 		}
+	// 		sortable.sort(function(a, b) {
+	// 		    return b[1] - a[1];
+	// 		});
+	//     	writeTable(sortable);
+	//     }
+	// }
 
-    function toObject(names, values) {
-    	var result = {};
-	    for (var i = 0; i < names.length; i++) {
-	         result[names[i]] = values[i];
-		}
-		return result;
-	}
+ //    function toObject(names, values) {
+ //    	var result = {};
+	//     for (var i = 0; i < names.length; i++) {
+	//          result[names[i]] = values[i];
+	// 	}
+	// 	return result;
+	// }
 
-	function writeTable(array) {
-		var count = 0;
-	    // cache <tbody> element:
-	    var tbody = $('#tableBody');
-	    if(array.length >= 10) {
-	    	for (var i = 0; i < 10; i++) {
-		        // create an <tr> element, append it to the <tbody> and cache it as a variable:
-		        var tr = $('<tr/>').appendTo(tbody);
-	            // append <td> elements to previously created <tr> element:
-	            	tr.append('<td>' + array[i][0] + '</td>');
-	            	tr.append('<td>' + array[i][1] + '</td>');
-	            count++;
-	    	}
-	    }
-	    else {
-	    	for (var i = 0; i < array.length; i++) {
-		        // create an <tr> element, append it to the <tbody> and cache it as a variable:
-		        var tr = $('<tr/>').appendTo(tbody);
-	            // append <td> elements to previously created <tr> element:
-	            	tr.append('<td>' + array[i][0] + '</td>');
-	            	tr.append('<td>' + array[i][1] + '</td>');
-	            count++;
-	    	}
-	    }
-	    // reset the count:
-	    count = 0;
-	}
+	// function writeTable(array) {
+	// 	var count = 0;
+	//     // cache <tbody> element:
+	//     var tbody = $('#tableBody');
+	//     if(array.length >= 10) {
+	//     	for (var i = 0; i < 10; i++) {
+	// 	        // create an <tr> element, append it to the <tbody> and cache it as a variable:
+	// 	        var tr = $('<tr/>').appendTo(tbody);
+	//             // append <td> elements to previously created <tr> element:
+	//             	tr.append('<td>' + array[i][0] + '</td>');
+	//             	tr.append('<td>' + array[i][1] + '</td>');
+	//             count++;
+	//     	}
+	//     }
+	//     else {
+	//     	for (var i = 0; i < array.length; i++) {
+	// 	        // create an <tr> element, append it to the <tbody> and cache it as a variable:
+	// 	        var tr = $('<tr/>').appendTo(tbody);
+	//             // append <td> elements to previously created <tr> element:
+	//             	tr.append('<td>' + array[i][0] + '</td>');
+	//             	tr.append('<td>' + array[i][1] + '</td>');
+	//             count++;
+	//     	}
+	//     }
+	//     // reset the count:
+	//     count = 0;
+	// }
 	//moves the enemies and checks if the player should move. If it should it checks which direction it's going to and what kind of sprite it should then use
 	function update() {
 		moveEnemies(ctx);
-		if(38 in keysDown) {
-			right = true;
-			movePlayer("up");
-			player.updateFrame(ctx);
-			drawPlayerMove(ctx);
-			right = false;
-		}
-		if(40 in keysDown) {
-			right = true;
-			movePlayer("down");
-			player.updateFrame(ctx);
-			drawPlayerMove(ctx);
-			right = false;
-		}
 		if(39 in keysDown) {
 			right = true;
 			movePlayer("right");

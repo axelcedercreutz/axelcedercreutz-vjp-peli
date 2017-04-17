@@ -6,8 +6,8 @@ var right = false;
 var countGameOver = 0;
 //create an object player that has a function for updating the sprite
 var player = {
-		x: 400,
-		y: 300,
+		x: 180,
+		y: 780,
 		w: 20,
 		h: 20,
 		speed: 10,
@@ -99,20 +99,6 @@ function movePlayer(direction) {
 			player.x += player.speed;
 			if(player.x >= 770) {
 				player.x = 770;
-			}
-			break;
-		case "up":
-			player.direction = "up";
-			player.y -= player.speed
-			if(player.y <= 80) {
-				player.y = 80;
-			}
-			break;
-		case "down":
-			player.direction = "down";
-			player.y += player.speed
-			if(player.y >= 580) {
-				player.y = 580;
 			}
 			break;
 	}
