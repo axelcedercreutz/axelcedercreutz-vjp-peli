@@ -7,11 +7,12 @@ function preload() {
 
 }
 
-var sprite1 = [];
+var enemies;
 var sprite2;
 
 var leftKey;
 var rightKey;
+var pressTime;
 
 var health = 100;
 var text = 0;
@@ -22,11 +23,13 @@ function create() {
 
     game.stage.backgroundColor = '#2d2d2d';
 
-    sprite1 = game.add.sprite(0,0, 'goodFish');
+    enemies = game.add.group();
+    enemies.createMultiple(1, 'goodFish', 0, false);
     sprite2 = game.add.sprite(130, 470, 'player');
 
      // sprite1.scale.setTo(2, 2);
     sprite2.scale.setTo(1.2,1.2);
+    enemies.scale.set(1.2, 1.2);
 
     // sprite1.animations.add('run');
     sprite2.animations.add('run');
@@ -38,17 +41,31 @@ function create() {
     text = game.add.text(game.world.centerX, game.world.centerY, 'Health: 100', { font: "64px Arial", fill: "#ffffff", align: "center" });
     text.anchor.setTo(0.5, 0.5);
 
-    game.physics.arcade.enable([ sprite1, sprite2 ], Phaser.Physics.ARCADE);
+    game.physics.arcade.enable([ enemies, sprite2 ], Phaser.Physics.ARCADE);
 
     // game.add.tween(sprite1.body).to( { y: 700 }, 5000, Phaser.Easing.Linear.None, true);
-    upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
-    downKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
     leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
     rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
 
     game.time.events.loop(Phaser.Timer.SECOND, updateCounter, this);
 
 }
+function resurrect() {
+
+    //  Get a dead item - The Group was seeded with 5 'dead' items,
+    //  so those will be re-used first and then it will start
+    //  creating new ones using the following arguments:
+
+    var x = game.world.randomX;
+    console.log(x);
+    var y = 0;
+    var key = 'goodFish';
+    var frame = game.rnd.between(0, 36);
+
+    enemies.getFirstDead(true, x, y, key, frame);
+
+}
+
 
 function updateCounter() {
 
@@ -60,43 +77,44 @@ function updateCounter() {
 
 
 function update() {
-    if (leftKey.isDown){  
-        if(sprite2.x <= 20) {
-            sprite2.x = 0
-            for (var i = 0; i < sprite1.length; i++) {
-                sprite1[i].y = sprite1[i].y + 10;
+    if (leftKey.isDown){
+        if(pressTime != leftKey.timeDown) {
+            pressTime = leftKey.timeDown;
+            if(sprite2.x <= 150) {
+                sprite2.x = 0;
+                for (var i = 0; i < enemies.children.length; i++) {
+                    enemies.children[i].position.y += 20;
+                }
             }
+            else{
+                sprite2.x = sprite2.x - 150;
+                for (var i = 0; i < enemies.children.length; i++) {
+                    enemies.children[i].position.y += 20;
+                }
 
-        }
-        else{
-            sprite2.x = sprite2.x - 30;
-            for (var i = 0; i < sprite1.length; i++) {
-                sprite1[i].y = sprite1[i].y + 10;
             }
-
+            resurrect();
         }
-        sprite1 += game.add.sprite(0,0, 'goodFish');
     }
     else if (rightKey.isDown) {
-        if(sprite2.x >= 300){
-            sprite2.x = 300
-            for (var i = 0; i < sprite1.length; i++) {
-                sprite1[i].y = sprite1[i].y + 10;
+        if(pressTime != rightKey.timeDown) {
+            pressTime = rightKey.timeDown;
+            resurrect();
+            if(sprite2.x >= 150){
+                sprite2.x = 300
+                for (var i = 0; i < enemies.children.length; i++) {
+                    enemies.children[i].position.y += 20;
+                 }
+            }
+            else {
+                sprite2.x = sprite2.x + 150;
+                for (var i = 0; i < enemies.children.length; i++) {
+                    enemies.children[i].position.y += 20;
+                }
             }
         }
-        else {
-            sprite2.x = sprite2.x + 30;
-            for (var i = 0; i < sprite1.length; i++) {
-                sprite1[i].y = sprite1[i].y + 10;
-            }
-
-        }
-        sprite1 += game.add.sprite(200,0, 'goodFish'); 
     }
-    if(sprite1.y >= 1000) {
-        sprite1.kill();
-    }
-    game.physics.arcade.overlap(sprite1, sprite2, overlapHandler, null, this);
+    game.physics.arcade.overlap(enemies, sprite2, overlapHandler, null, this);
 
 }
 
