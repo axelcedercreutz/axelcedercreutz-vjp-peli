@@ -1,9 +1,9 @@
 var game = new Phaser.Game(400, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
 function preload() {
-     game.load.atlasJSONHash('badFish', 'assets/running_bot.png', 'assets/running.json');
+     game.load.atlasJSONHash('bot', 'assets/running_bot.png', 'assets/running.json');
     // game.load.image('badFish', 'assets/bad_fish.png');
-     game.load.image('goodFish', 'assets/good_fish.png');
+    game.load.image('goodFish', 'assets/good_fish.png');
 
 }
 
@@ -22,10 +22,10 @@ function create() {
     sprite1 = game.add.sprite(10,0, 'badFish');
     sprite2 = game.add.sprite(100, 530, 'goodFish');
 
-     sprite1.anchor.setTo(0.5, 0.5);
+    //  sprite1.anchor.setTo(0.5, 0.5);
     // sprite2.anchor.setTo(0.5,0.5);
 
-     sprite1.scale.setTo(2, 2);
+    //  sprite1.scale.setTo(2, 2);
     // sprite2.scale.setTo(2,2);
 
     sprite1.animations.add('run');
@@ -66,7 +66,7 @@ function update() {
             sprite1.y = sprite1.y + 10
         }
     }
-    if(sprite1.y = 800) {
+    if(sprite1.y >= 1000) {
         sprite1.kill();
     }
     game.physics.arcade.overlap(sprite1, sprite2, overlapHandler, null, this);
