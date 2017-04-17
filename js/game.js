@@ -3,7 +3,8 @@ var game = new Phaser.Game(400, 600, Phaser.CANVAS, 'phaser-example', { preload:
 function preload() {
      game.load.spritesheet('player', 'assets/fish-sprite.png', 80, 80, 8);
     // game.load.image('badFish', 'assets/bad_fish.png');
-    game.load.image('goodFish', 'assets/good_fish.png');
+    game.load.spritesheet('goodFish', 'assets/good_fish.png', 35, 32, 5);
+    // game.load.image('goodFish', 'assets/good_fish.png');
 
 }
 
