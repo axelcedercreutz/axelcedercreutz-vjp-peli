@@ -54,6 +54,8 @@ function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     game.stage.backgroundColor = '#124184';
+    game.canvas.id = "game";
+    console.log(game.canvas);
 
     enemies = game.add.group();
     enemies.createMultiple(1, 'goodFish', 0, false);

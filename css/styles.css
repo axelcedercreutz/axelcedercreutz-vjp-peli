@@ -1,6 +1,6 @@
-#canvas {
-  background-image: url("../assets/water-background.jpg");
-  background-size: cover;
-  height: 600px;
-  margin-left: 0 !important;
+#game {
+  /*background-image: url("../assets/water-background.jpg");*/
+  /*background-size: cover;*/
+  /*height: 600px;*/
+  margin: 0 auto;
 }
