@@ -25,6 +25,8 @@ var timerRun;
 
 var button;
 
+var deathCount = 0;
+
 function create() {
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -80,6 +82,7 @@ function updateCounter() {
     }
     text.setText('Health: ' + health);
     scoreText.setText('Score: ' + score);
+    levelText.setText('Level: ' + level);
 
 }
 
@@ -100,13 +103,13 @@ function update() {
                 if(score >= 20 && score % 20 === 0) {
                     level ++;
                     if(health <= 90) {
-                        health = health + 10
+                        health = health + 10;
                     }
                     else {
-                        health = 101
+                        health = 101;
                     }
-                    levelText.setText('Level: ' + level);
-                    timer = timer/1.1
+                    timer = timer/1.2;
+                    timerRun.timer.events = [];
                     timerRun = game.time.events.loop(timer, updateCounter, this);
                 }
                 updateCounter();
@@ -136,13 +139,14 @@ function update() {
                 if(score >= 20 && score % 20 === 0) {
                     level ++;
                     if(health <= 90) {
-                        health = health + 10
+                        health = health + 10;
                     }
                     else {
-                        health = 101
+                        health = 101;
                     }
                     levelText.setText('Level: ' + level);
-                    timer = timer/1.1
+                    timer = timer/1.2;
+                    timerRun.timer.events = [];
                     timerRun = game.time.events.loop(timer, updateCounter, this);
                 }
                 updateCounter();
@@ -178,7 +182,8 @@ function update() {
                     }
                     levelText.setText('Level: ' + level);
                     if(score % 20 === 0) {
-                        timer = timer/1.1
+                        timer = timer/1.2;
+                        timerRun.timer.events = [];
                         timerRun = game.time.events.loop(timer, updateCounter, this);
                     }
                 }
@@ -186,27 +191,37 @@ function update() {
             }
         }
         for (var i = 0; i < enemies.children.length; i++) {
-            console.log("running");
             if(enemies.children[i].position.y >= 800) {
                 enemies.children[i].kill();
             }
-            game.physics.arcade.overlap(enemies.children[i], sprite2, overlapHandler, null, this);
+            game.physics.arcade.overlap(enemies.children[i], sprite2, gameOver, null, this);
+        }
+    }
+    else {
+        if(deathCount === 0) {
+            gameOver()
+            deathCount ++;
         }
     }
 }
 
 function overlapHandler (obj1, obj2) {
-    obj2.kill();
-    for (var i = 0; i < enemies.children.length; i++) {
-        enemies.children[i].kill();
-    }
     gameOver();
 }
 function gameOver() {
+    game.stage.backgroundColor = '#992d2d';
+
+    deathCount ++;
     health = 0;
     updateCounter();
-    game.stage.backgroundColor = '#992d2d';
-    button = game.add.button (game.world.centerX - 95, 400, 'button', reset, this, 2, 1, 0);
+
+    for (var i = 0; i < enemies.children.length; i++) {
+        enemies.children[i].kill();
+    }
+
+    sprite2.kill();
+
+    button = game.add.button(game.world.centerX - 95, 400, 'button', reset, this, 2, 1, 0);
 }
 function reset() {
     sprite2 = game.add.sprite(150, 470, 'player');
@@ -221,14 +236,19 @@ function reset() {
 
     score = 0;
     health = 101;
+    level = 1;
     updateCounter();
-    timer = Phaser.Timer.SECOND;
     game.physics.arcade.enable([ enemies, sprite2 ], Phaser.Physics.ARCADE);
 
     game.stage.backgroundColor = '#124184';
 
     button.inputEnabled = false;
     button.visible = false;
+    deathCount = 0;
+    timer =  Phaser.Timer.SECOND;
+    timerRun.timer.events = [];
+    timerRun = game.time.events.loop(timer, updateCounter, this);
+    timerRun;
 }
 function render() {
 }
