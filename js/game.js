@@ -92,15 +92,17 @@ function resurrect() {
     var frame = game.rnd.between(0, 36);
     if(doubleCreated === 1) {
         if(x === 150) {
-            console.log(x)
             for (var i = 1; i < enemies.children.length; i++) {
-                if(enemies.children[i].position.x === x && enemies.children[i].position.y === y) {
-                    console.log(enemies.children[i]);
-                    console.log("i");
-                }
+                console.log(i);
+                // if(x === enemies.children[i].position.x){
+                //     console.log("yeayayays")
+                //     if(y + 100 === enemies.children[i].position.y){
+                //         console.log("megaysassa")
+                //     }
+                // }
                 if (x === enemies.children[i].position.x &&
-                    y === enemies.children[i].position.y){
-                    console.log(enemies.children[i-1]);
+                    y + 100 === enemies.children[i].position.y){
+                    console.log(enemies.children[i - 1]);
                     if (x + 150 === enemies.children[i - 1].position.x &&
                         y + 100 === enemies.children[i - 1].position.y) {
                          x = 0;
@@ -113,8 +115,9 @@ function resurrect() {
                     }
                 }
                 else if(x === enemies.children[i - 1].position.x &&
-                        y === enemies.children[i - 1].position.y) {
-                        console.log(enemies.children[i]);
+                        y + 100 === enemies.children[i - 1].position.y) {
+                        console.log(enemies.children[3]);
+                        console.log(enemies.children[9]);
                     if (x + 150 === enemies.children[i].position.x &&
                         y + 100 === enemies.children[i].position.y) {
                         x = 300;
@@ -126,22 +129,6 @@ function resurrect() {
                         console.log("jee ");
                     }
                 }
-                // else if(x === enemies.children[i].position.x &&
-                //         y === enemies.children[i].position.y &&
-                //         x - 150 === enemies.children[i + 1].position.x &&
-                //         y + 100 === enemies.children[i + 1].position.y) {
-                //     x = 0;
-                //     console.log("jee " + x)
-                // }
-
-                // else if (x === enemies.children[i + 1].position.x &&
-                //         y === enemies.children[i + 1].position.y &&
-                //         x - 150 === enemies.children[i].position.x &&
-                //         y + 100 === enemies.children[i].position.y) {
-                    
-                //     x = 300;
-                //     console.log("jee " + x)
-                // }
             }
         }
     }
@@ -367,8 +354,8 @@ function update() {
         // kills all enemies that are out of sight
 
         for (var i = 0; i < enemies.children.length; i++) {
-            if(enemies.children[i].position.y >= 800) {
-                enemies.children[i].kill();
+            if(enemies.children[i].position.y >= 600) {
+                // enemies.children[i].kill();
             }
 
             // checks if the player and the specific enemy overlaps
