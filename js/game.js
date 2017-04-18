@@ -1,10 +1,8 @@
 var game = new Phaser.Game(400, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
 function preload() {
-     game.load.spritesheet('player', 'assets/fish-sprite.png', 80, 80, 8);
-    // game.load.image('badFish', 'assets/bad_fish.png');
+    game.load.spritesheet('player', 'assets/fish-sprite.png', 80, 80, 8);
     game.load.spritesheet('goodFish', 'assets/good_fish.png', 35, 32, 5);
-    // game.load.image('goodFish', 'assets/good_fish.png');
 
 }
 
@@ -19,6 +17,11 @@ var health = 100;
 var text;
 var score = 0;
 var scoreText;
+var level = 1;
+var levelText;
+
+var timer = Phaser.Timer.SECOND;
+var timerRun;
 
 function create() {
 
@@ -30,20 +33,18 @@ function create() {
     enemies.createMultiple(1, 'goodFish', 0, false);
     sprite2 = game.add.sprite(130, 470, 'player');
 
-     // sprite1.scale.setTo(2, 2);
     sprite2.scale.setTo(1.2,1.2);
     enemies.scale.set(1.2, 1.2);
 
-    // sprite1.animations.add('run');
     sprite2.animations.add('run');
-
-    // sprite1.animations.play('run', 10, true);
     sprite2.animations.play('run', 10, true);
 
     scoreText = game.add.text(game.world.centerX, game.world.centerY + 40, 'Score: 0', { font: "32px Arial", fill: "#ffffff", align: "center" });
     scoreText.anchor.setTo(0.5, 0.5);
     text = game.add.text(game.world.centerX, game.world.centerY, 'Health: 100', { font: "32px Arial", fill: "#ffffff", align: "center" });
     text.anchor.setTo(0.5, 0.5);
+    levelText = game.add.text(game.world.centerX, 20, 'Level: 1', { font: "32px Arial", fill: "#ffffff", align: "center" });
+    levelText.anchor.setTo(0.5, 0.5);
 
     game.physics.arcade.enable([ enemies, sprite2 ], Phaser.Physics.ARCADE);
 
@@ -51,8 +52,8 @@ function create() {
     leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
     rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
 
-    game.time.events.loop(Phaser.Timer.HALF, updateCounter, this);
-
+    timerRun = game.time.events.loop(timer, updateCounter, this);
+    timerRun;
 }
 function resurrect() {
 
@@ -90,10 +91,22 @@ function update() {
                 }
                 pressTime = upKey.timeDown;
                 resurrect();
-                if(health <= 99) {
+                if(health <= (100 - level)) {
                     health = health + 2;
                 }
                 score ++;
+                if(score >= 20 && score % 20 === 0) {
+                    level ++;
+                    if(health <= 90) {
+                        health = health + 10
+                    }
+                    else {
+                        health = 101
+                    }
+                    levelText.setText('Level: ' + level);
+                    timer = timer/1.2
+                    timerRun = game.time.events.loop(timer, updateCounter, this);
+                }
                 updateCounter();
             }
         }
@@ -118,6 +131,18 @@ function update() {
                     health = health + 2;
                 }
                 score ++;
+                if(score >= 20 && score % 20 === 0) {
+                    level ++;
+                    if(health <= 90) {
+                        health = health + 10
+                    }
+                    else {
+                        health = 101
+                    }
+                    levelText.setText('Level: ' + level);
+                    timer = timer/1.2
+                    timerRun = game.time.events.loop(timer, updateCounter, this);
+                }
                 updateCounter();
             }
         }
@@ -137,10 +162,22 @@ function update() {
                 }
                 pressTime = rightKey.timeDown;
                 resurrect();
-                if(health >= 99) {
-                    health = 101;
+                if(health <= 99) {
+                    health = health + 2;
                 }
                 score ++;
+                if(score >= 20 && score % 20 === 0) {
+                    level ++;
+                    if(health <= 90) {
+                        health = health + 10
+                    }
+                    else {
+                        health = 101
+                    }
+                    levelText.setText('Level: ' + level);
+                    timer = timer/1.2
+                    timerRun = game.time.events.loop(timer, updateCounter, this);
+                }
                 updateCounter();
             }
         }
