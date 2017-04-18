@@ -107,7 +107,7 @@ function resurrect() {
                          x = 0;
                     }
                 }
-                
+
                 else if(x === enemies.children[i - 1].position.x &&
                         y + 100 === enemies.children[i - 1].position.y) {
 
@@ -402,5 +402,4 @@ function reset() {
     timerRun = game.time.events.loop(timer, updateCounter, this);
     timerRun;
 }
-
 
