@@ -3,7 +3,7 @@ var game = new Phaser.Game(400, 600, Phaser.CANVAS, 'phaser-example', { preload:
 function preload() {
     game.load.spritesheet('player', 'assets/fish-sprite.png', 80, 80, 8);
     game.load.spritesheet('goodFish', 'assets/good_fish.png', 35, 32, 5);
-
+    game.load.spritesheet('button', 'assets/button_sprite_sheet.png', 193, 71);
 }
 
 var enemies;
@@ -23,6 +23,8 @@ var levelText;
 var timer = Phaser.Timer.SECOND;
 var timerRun;
 
+var button;
+
 function create() {
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -31,7 +33,7 @@ function create() {
 
     enemies = game.add.group();
     enemies.createMultiple(1, 'goodFish', 0, false);
-    sprite2 = game.add.sprite(130, 470, 'player');
+    sprite2 = game.add.sprite(150, 470, 'player');
 
     sprite2.scale.setTo(1.2,1.2);
     enemies.scale.set(1.2, 1.2);
@@ -184,6 +186,7 @@ function update() {
             }
         }
         for (var i = 0; i < enemies.children.length; i++) {
+            console.log("running");
             if(enemies.children[i].position.y >= 800) {
                 enemies.children[i].kill();
             }
@@ -193,13 +196,39 @@ function update() {
 }
 
 function overlapHandler (obj1, obj2) {
-    console.log(obj1);
-    health = 0;
-     game.stage.backgroundColor = '#992d2d';
     obj2.kill();
-
+    for (var i = 0; i < enemies.children.length; i++) {
+        enemies.children[i].kill();
+    }
+    gameOver();
 }
+function gameOver() {
+    health = 0;
+    updateCounter();
+    game.stage.backgroundColor = '#992d2d';
+    button = game.add.button (game.world.centerX - 95, 400, 'button', reset, this, 2, 1, 0);
+}
+function reset() {
+    sprite2 = game.add.sprite(150, 470, 'player');
+    enemies = game.add.group();
+    enemies.createMultiple(1, 'goodFish', 0, false);
 
+    sprite2.scale.setTo(1.2,1.2);
+    enemies.scale.set(1.2, 1.2);
+
+    sprite2.animations.add('run');
+    sprite2.animations.play('run', 10, true);
+
+    score = 0;
+    health = 101;
+    updateCounter();
+    timer = Phaser.Timer.SECOND;
+    game.physics.arcade.enable([ enemies, sprite2 ], Phaser.Physics.ARCADE);
+
+    game.stage.backgroundColor = '#124184';
+
+    button.inputEnabled = false;
+    button.visible = false;
+}
 function render() {
-
 }
