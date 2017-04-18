@@ -104,7 +104,7 @@ function update() {
                         health = 101
                     }
                     levelText.setText('Level: ' + level);
-                    timer = timer/1.2
+                    timer = timer/1.1
                     timerRun = game.time.events.loop(timer, updateCounter, this);
                 }
                 updateCounter();
@@ -140,7 +140,7 @@ function update() {
                         health = 101
                     }
                     levelText.setText('Level: ' + level);
-                    timer = timer/1.2
+                    timer = timer/1.1
                     timerRun = game.time.events.loop(timer, updateCounter, this);
                 }
                 updateCounter();
@@ -166,7 +166,7 @@ function update() {
                     health = health + 2;
                 }
                 score ++;
-                if(score >= 20 && score % 20 === 0) {
+                if(score >= 10 && score % 10 === 0) {
                     level ++;
                     if(health <= 90) {
                         health = health + 10
@@ -175,8 +175,10 @@ function update() {
                         health = 101
                     }
                     levelText.setText('Level: ' + level);
-                    timer = timer/1.2
-                    timerRun = game.time.events.loop(timer, updateCounter, this);
+                    if(score % 20 === 0) {
+                        timer = timer/1.1
+                        timerRun = game.time.events.loop(timer, updateCounter, this);
+                    }
                 }
                 updateCounter();
             }
