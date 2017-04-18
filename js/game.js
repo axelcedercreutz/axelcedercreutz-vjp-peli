@@ -93,40 +93,32 @@ function resurrect() {
     if(doubleCreated === 1) {
         if(x === 150) {
             for (var i = 1; i < enemies.children.length; i++) {
-                console.log(i);
-                // if(x === enemies.children[i].position.x){
-                //     console.log("yeayayays")
-                //     if(y + 100 === enemies.children[i].position.y){
-                //         console.log("megaysassa")
-                //     }
-                // }
+
                 if (x === enemies.children[i].position.x &&
                     y + 100 === enemies.children[i].position.y){
-                    console.log(enemies.children[i - 1]);
+
                     if (x + 150 === enemies.children[i - 1].position.x &&
                         y + 100 === enemies.children[i - 1].position.y) {
                          x = 0;
-                        console.log("buu ");
                     }
+
                     else if(x - 150 === enemies.children[i - 1].position.x &&
                             y + 100 === enemies.children[i - 1].position.y) {
                          x = 0;
-                        console.log("buu ");
                     }
                 }
+                
                 else if(x === enemies.children[i - 1].position.x &&
                         y + 100 === enemies.children[i - 1].position.y) {
-                        console.log(enemies.children[3]);
-                        console.log(enemies.children[9]);
+
                     if (x + 150 === enemies.children[i].position.x &&
                         y + 100 === enemies.children[i].position.y) {
                         x = 300;
-                        console.log("jee ");
                     }
+
                     else if(x - 150 === enemies.children[i].position.x &&
                             y + 100 === enemies.children[i].position.y) {
                         x = 300;
-                        console.log("jee ");
                     }
                 }
             }
@@ -194,9 +186,8 @@ function update() {
                 pressTime = upKey.timeDown;
                 enemyCount ++;
                 resurrect();
-                if(level > 1 && doubleCreated === 0) {
-                    // if(Math.floor(Math.random() * 2) === 1) {
-                    if(1 === 1) {
+                if(level >= 5 && doubleCreated === 0) {
+                    if(Math.floor(Math.random() * 2) === 1) {
                         enemyCount ++;
                         resurrect();
                     }
@@ -253,9 +244,8 @@ function update() {
                 pressTime = leftKey.timeDown;
                 enemyCount ++;
                 resurrect();
-                if(level > 1 && doubleCreated === 0) {
-                    // if(Math.floor(Math.random() * 2) === 1) {
-                    if(1 === 1) {
+                if(level >= 5 && doubleCreated === 0) {
+                    if(Math.floor(Math.random() * 2) === 1) {
                         enemyCount ++;
                         resurrect();
                     }
@@ -312,9 +302,8 @@ function update() {
                 pressTime = rightKey.timeDown;
                 enemyCount ++;
                 resurrect();
-                if(level > 1 && doubleCreated === 0) {
-                    // if(Math.floor(Math.random() * 2) === 1) {
-                    if(1 === 1) {
+                if(level >= 5 && doubleCreated === 0) {
+                    if(Math.floor(Math.random() * 2) === 1) {
                         enemyCount ++;
                         resurrect();
                     }
@@ -331,7 +320,7 @@ function update() {
                 // get 10 points more health, changes the timer to a faster pace, empties the timer
                 // and adds the new one
 
-                if(score >= 10 && score % 10 === 0) {
+                if(score >= 20 && score % 20 === 0) {
                     level ++;
                     if(health <= 90) {
                         health = health + 10
