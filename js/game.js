@@ -9,7 +9,11 @@ function preload() {
 }
 // first menu site variables
 var gameMenu = true;
+var menuText;
 var counterMenu = 0;
+
+// instruction menu
+var instructionMenu;
 
 // global variables for the players
 var enemies;
@@ -40,6 +44,7 @@ var timerRun;
 
 // global variable for the button
 var button;
+var button2;
 
 // global variable for the update to only run the gameOver-function once
 var deathCount = 0;
@@ -178,6 +183,7 @@ function updateCounter() {
 
 function update() {
     if(!gameMenu) {
+        menuText.setText('');
         if(health > 0) {
             if(upKey.isDown){
 
@@ -371,6 +377,42 @@ function update() {
             startGame();
             counterMenu ++;
         }
+        if(instructionMenu) {
+            gameInstruction();
+        }
+    }
+}
+
+
+function startGame() {
+    game.stage.backgroundColor = '#00FF00';
+    if(menuText === undefined) {
+        menuText = game.add.text(game.world.centerX, 100, 'VesiPomppuPeli', { font: "32px Arial", fill: "#ffffff", align: "center" });
+    }
+    else {
+        menuText.setText('VesiPomppuPeli');
+    }
+    menuText.anchor.setTo(0.5, 0.5);
+    levelText.setText('');
+    scoreText.setText('');
+    text.setText('');
+    if(button === undefined) {
+        button = game.add.button(game.world.centerX - 95, 250, 'button', start, this, 2, 1, 0); 
+    }
+    if(button2 !== undefined) {
+        button2.kill();
+    }
+    button2 = game.add.button(game.world.centerX - 95, 350, 'button', instruction, this, 2, 1, 0);
+}
+
+function gameInstruction() {
+    button.inputEnabled = false;
+    button.visible = false;
+    game.stage.backgroundColor = '#000000';
+    menuText.setText('How to play the game?\n Watch out for the stones! \n Use the arrows to move');
+    if(button2 !== undefined) {
+        button2.kill();
+        button2 = game.add.button(game.world.centerX - 95, 350, 'button', backInstruction, this, 2, 1, 0);
     }
 }
 
@@ -378,13 +420,7 @@ function update() {
 // sets deathcount to 1, health to 0 and updates the Counter.
 // Kills the enemies that are alive and kills the player.
 // adds the restart button.
-function startGame() {
-    game.stage.backgroundColor = '#00FF00';
-    text.setText('VesiPomppuPeli');
-    scoreText.setText('');
-    levelText.setText('');
-    button = game.add.button(game.world.centerX - 95, 400, 'button', start, this, 2, 1, 0); 
-}
+
 function gameOver() {
     game.stage.backgroundColor = '#992d2d';
 
@@ -406,10 +442,24 @@ function gameOver() {
 function start() {
     button.inputEnabled = false;
     button.visible = false;
+    button2.inputEnabled = false;
+    button2.visible = false;
     game.stage.backgroundColor = '#124184';
     gameMenu = !gameMenu;
 }
 
+
+function instruction() {
+    instructionMenu = true;
+}
+
+function backInstruction() {
+    counterMenu = 0;
+    button.inputEnabled = true;
+    button.visible = true;
+    instructionMenu = false;
+    game.stage.backgroundColor = '#00FF00';
+}
 // Adds the player to the bottom center, empties the enemy group and creates a new one. Set the scale.
 // adds the run animation for the player, sets the score, health and level and updates the counter and sets deathcount.
 // Enables the physics for the enemies and player. Sets the background, makes the button invisible and untouchable.
