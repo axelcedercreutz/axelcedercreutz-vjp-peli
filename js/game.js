@@ -4,7 +4,7 @@ var game = new Phaser.Game(400, 600, Phaser.CANVAS, 'phaser-example', { preload:
 // defines the preloaded things
 function preload() {
     game.load.spritesheet('player', 'assets/fish-sprite.png', 80, 80, 8);
-    game.load.spritesheet('rock', 'assets/rock-sprite.png', 80, 80, 1);
+    game.load.spritesheet('rock', 'assets/rock-sprite.png', 80, 80);
     game.load.spritesheet('button', 'assets/button_sprite_sheet.png', 193, 71);
 }
 // global variables for the players
@@ -62,7 +62,7 @@ function create() {
     player = game.add.sprite(150, 470, 'player');
 
     player.scale.setTo(1.2,1.2);
-    enemies.scale.setTo(1.2, 1.2);
+    enemies.scale.setTo(1.05, 1.2);
 
     player.animations.add('run');
     player.animations.play('run', 10, true);
@@ -89,6 +89,7 @@ function create() {
 
 function resurrect() {
     var x = Math.floor(Math.random() * 3) * 150;
+    console.log(x);
     var y = 0;
     var key = 'rock';
     var frame = game.rnd.between(0, 36);
@@ -97,29 +98,29 @@ function resurrect() {
             for (var i = 1; i < enemies.children.length; i++) {
 
                 if (x === enemies.children[i].position.x &&
-                    y + 80 === enemies.children[i].position.y){
+                    y + 150 === enemies.children[i].position.y){
 
                     if (x + 150 === enemies.children[i - 1].position.x &&
-                        y + 80 === enemies.children[i - 1].position.y) {
+                        y + 150 === enemies.children[i - 1].position.y) {
                          x = 0;
                     }
 
                     else if(x - 150 === enemies.children[i - 1].position.x &&
-                            y + 80 === enemies.children[i - 1].position.y) {
+                            y + 150 === enemies.children[i - 1].position.y) {
                          x = 0;
                     }
                 }
 
                 else if(x === enemies.children[i - 1].position.x &&
-                        y + 80 === enemies.children[i - 1].position.y) {
+                        y + 150 === enemies.children[i - 1].position.y) {
 
                     if (x + 150 === enemies.children[i].position.x &&
-                        y + 80 === enemies.children[i].position.y) {
+                        y + 150 === enemies.children[i].position.y) {
                         x = 300;
                     }
 
                     else if(x - 150 === enemies.children[i].position.x &&
-                            y + 80 === enemies.children[i].position.y) {
+                            y + 150 === enemies.children[i].position.y) {
                         x = 300;
                     }
                 }
@@ -183,7 +184,7 @@ function update() {
             if(pressTime != upKey.timeDown) {
 
                 for (var i = 0; i < enemies.children.length; i++) {
-                    enemies.children[i].position.y += 80;
+                    enemies.children[i].position.y += 100;
                 }
                 pressTime = upKey.timeDown;
                 enemyCount ++;
@@ -233,13 +234,13 @@ function update() {
                 if(player.x <= 150) {
                     player.x = 0;
                     for (var i = 0; i < enemies.children.length; i++) {
-                        enemies.children[i].position.y += 80;
+                        enemies.children[i].position.y += 100;
                     }
                 }
                 else{
                     player.x = player.x - 150;
                     for (var i = 0; i < enemies.children.length; i++) {
-                        enemies.children[i].position.y += 80;
+                        enemies.children[i].position.y += 100;
                     }
 
                 }
@@ -292,13 +293,13 @@ function update() {
                 if(player.x >= 150){
                     player.x = 300
                     for (var i = 0; i < enemies.children.length; i++) {
-                        enemies.children[i].position.y += 80;
+                        enemies.children[i].position.y += 100;
                      }
                 }
                 else {
                     player.x = player.x + 150;
                     for (var i = 0; i < enemies.children.length; i++) {
-                        enemies.children[i].position.y += 80;
+                        enemies.children[i].position.y += 100;
                     }
                 }
                 pressTime = rightKey.timeDown;
@@ -394,7 +395,7 @@ function reset() {
     enemies.createMultiple(1, 'rock', 0, false);
 
     player.scale.setTo(1.2,1.2);
-    enemies.scale.setTo(1.2, 1.2);
+    enemies.scale.setTo(1.05, 1.2);
 
     player.animations.add('run');
     player.animations.play('run', 10, true);
