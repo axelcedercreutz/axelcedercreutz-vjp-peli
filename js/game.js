@@ -61,8 +61,8 @@ function create() {
     enemies.createMultiple(1, 'rock', 0, false);
     player = game.add.sprite(150, 470, 'player');
 
-    // player.scale.setTo(1.2,1.2);
-    // enemies.scale.setTo(1.2, 1.2);
+    player.scale.setTo(1.2,1.2);
+    enemies.scale.setTo(1.2, 1.2);
 
     player.animations.add('run');
     player.animations.play('run', 10, true);
@@ -362,6 +362,11 @@ function update() {
     }
 }
 
+// gameOver screen. First changes the background color to red,
+// sets deathcount to 1, health to 0 and updates the Counter.
+// Kills the enemies that are alive and kills the player.
+// adds the restart button.
+
 function gameOver() {
     game.stage.backgroundColor = '#992d2d';
 
@@ -377,13 +382,19 @@ function gameOver() {
 
     button = game.add.button(game.world.centerX - 95, 400, 'button', reset, this, 2, 1, 0);
 }
+
+// Adds the player to the bottom center, empties the enemy group and creates a new one. Set the scale.
+// adds the run animation for the player, sets the score, health and level and updates the counter and sets deathcount.
+// Enables the physics for the enemies and player. Sets the background, makes the button invisible and untouchable.
+// Empties the timers, sets the time for the timer and creates the new timer.
+
 function reset() {
     player = game.add.sprite(150, 470, 'player');
     enemies = game.add.group();
     enemies.createMultiple(1, 'rock', 0, false);
 
     player.scale.setTo(1.2,1.2);
-    enemies.scale.set(1.2, 1.2);
+    enemies.scale.setTo(1.2, 1.2);
 
     player.animations.add('run');
     player.animations.play('run', 10, true);
@@ -392,15 +403,15 @@ function reset() {
     health = 101;
     level = 1;
     updateCounter();
+    deathCount = 0;
     game.physics.arcade.enable([ enemies, player ], Phaser.Physics.ARCADE);
 
     game.stage.backgroundColor = '#124184';
 
     button.inputEnabled = false;
     button.visible = false;
-    deathCount = 0;
-    timer =  Phaser.Timer.SECOND;
     timerRun.timer.events = [];
+    timer =  Phaser.Timer.SECOND;
     timerRun = game.time.events.loop(timer, updateCounter, this);
     timerRun;
 }
