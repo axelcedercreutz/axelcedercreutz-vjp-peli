@@ -367,7 +367,7 @@ function update() {
         }
         else {
             if(deathCount === 0) {
-                gameOver()
+                gameOver();
                 deathCount ++;
             }
         }
@@ -385,6 +385,7 @@ function update() {
 
 
 function startGame() {
+    player.visible = false;
     game.stage.backgroundColor = '#00FF00';
     if(menuText === undefined) {
         menuText = game.add.text(game.world.centerX, 100, 'VesiPomppuPeli', { font: "32px Arial", fill: "#ffffff", align: "center" });
@@ -396,9 +397,10 @@ function startGame() {
     levelText.setText('');
     scoreText.setText('');
     text.setText('');
-    if(button === undefined) {
-        button = game.add.button(game.world.centerX - 95, 250, 'button', start, this, 2, 1, 0); 
+    if(button !== undefined) {
+        button.kill();
     }
+    button = game.add.button(game.world.centerX - 95, 250, 'button', start, this, 2, 1, 0); 
     if(button2 !== undefined) {
         button2.kill();
     }
@@ -435,15 +437,15 @@ function gameOver() {
     player.kill();
 
     button = game.add.button(game.world.centerX - 95, 400, 'button', reset, this, 2, 1, 0);
+    button2 = game.add.button(game.world.centerX - 95, 470, 'button', startGame, this, 2, 1, 0);
 }
 // function that starts the game. First inables the button, then makes it invisible, changes the backgroundcolor and sets
 // gameMenu to false.
 
 function start() {
-    button.inputEnabled = false;
-    button.visible = false;
-    button2.inputEnabled = false;
-    button2.visible = false;
+    player.visible = true;
+    button.kill();
+    button2.kill();
     game.stage.backgroundColor = '#124184';
     gameMenu = !gameMenu;
 }
@@ -485,8 +487,8 @@ function reset() {
 
     game.stage.backgroundColor = '#124184';
 
-    button.inputEnabled = false;
-    button.visible = false;
+    button.kill();
+    button2.kill();
     timerRun.timer.events = [];
     timer =  Phaser.Timer.SECOND;
     timerRun = game.time.events.loop(timer, updateCounter, this);
