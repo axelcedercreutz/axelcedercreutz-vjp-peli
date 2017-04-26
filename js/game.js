@@ -7,6 +7,10 @@ function preload() {
     game.load.spritesheet('rock', 'assets/rock-sprite.png', 80, 80);
     game.load.spritesheet('button', 'assets/button_sprite_sheet.png', 193, 71);
 }
+// first menu site variables
+var gameMenu = true;
+var counterMenu = 0;
+
 // global variables for the players
 var enemies;
 var player;
@@ -55,7 +59,6 @@ function create() {
 
     game.stage.backgroundColor = '#124184';
     game.canvas.id = "game";
-    console.log(game.canvas);
 
     enemies = game.add.group();
     enemies.createMultiple(1, 'rock', 0, false);
@@ -89,7 +92,6 @@ function create() {
 
 function resurrect() {
     var x = Math.floor(Math.random() * 3) * 150;
-    console.log(x);
     var y = 0;
     var key = 'rock';
     var frame = game.rnd.between(0, 36);
@@ -98,29 +100,29 @@ function resurrect() {
             for (var i = 1; i < enemies.children.length; i++) {
 
                 if (x === enemies.children[i].position.x &&
-                    y + 150 === enemies.children[i].position.y){
+                    y + 100 === enemies.children[i].position.y){
 
                     if (x + 150 === enemies.children[i - 1].position.x &&
-                        y + 150 === enemies.children[i - 1].position.y) {
+                        y + 100 === enemies.children[i - 1].position.y) {
                          x = 0;
                     }
 
                     else if(x - 150 === enemies.children[i - 1].position.x &&
-                            y + 150 === enemies.children[i - 1].position.y) {
+                            y + 100 === enemies.children[i - 1].position.y) {
                          x = 0;
                     }
                 }
 
                 else if(x === enemies.children[i - 1].position.x &&
-                        y + 150 === enemies.children[i - 1].position.y) {
+                        y + 100 === enemies.children[i - 1].position.y) {
 
                     if (x + 150 === enemies.children[i].position.x &&
-                        y + 150 === enemies.children[i].position.y) {
+                        y + 100 === enemies.children[i].position.y) {
                         x = 300;
                     }
 
                     else if(x - 150 === enemies.children[i].position.x &&
-                            y + 150 === enemies.children[i].position.y) {
+                            y + 100 === enemies.children[i].position.y) {
                         x = 300;
                     }
                 }
@@ -159,13 +161,14 @@ function resurrect() {
 // are correct.
 
 function updateCounter() {
-    if(health > 0) {
-        health --;
+    if(!gameMenu) {
+        if(health > 0) {
+            health --;
+        }
+        text.setText('Health: ' + health);
+        scoreText.setText('Score: ' + score);
+        levelText.setText('Level: ' + level);
     }
-    text.setText('Health: ' + health);
-    scoreText.setText('Score: ' + score);
-    levelText.setText('Level: ' + level);
-
 }
 
 //The other of the big functions.
@@ -174,191 +177,199 @@ function updateCounter() {
 // 3) Checks if the button has already been pressed this time, if it has it does nothing
 
 function update() {
-    if(health > 0) {
-        if(upKey.isDown){
+    if(!gameMenu) {
+        if(health > 0) {
+            if(upKey.isDown){
 
-            // 4) If the statment below is true, the function first moves all enemies,
-            // changes the pressTime to the time that the button was pressed, creates a new enemy
-            // and adds health and score to the player.
+                // 4) If the statment below is true, the function first moves all enemies,
+                // changes the pressTime to the time that the button was pressed, creates a new enemy
+                // and adds health and score to the player.
 
-            if(pressTime != upKey.timeDown) {
+                if(pressTime != upKey.timeDown) {
 
-                for (var i = 0; i < enemies.children.length; i++) {
-                    enemies.children[i].position.y += 100;
-                }
-                pressTime = upKey.timeDown;
-                enemyCount ++;
-                resurrect();
-                if(level >= 5 && doubleCreated === 0) {
-                    if(Math.floor(Math.random() * 2) === 1) {
-                        enemyCount ++;
-                        resurrect();
-                    }
-                }
-                else {
-                    doubleCreated = 0;
-                }
-                if(health <= 99) {
-                    health = health + 2;
-                }
-                score ++;
-
-                // 5) If the score is more than 20 and evenly devided with 20 you level up,
-                // get 10 points more health, changes the timer to a faster pace, empties the timer
-                // and adds the new one
-
-                if(score >= 20 && score % 20 === 0) {
-                    level ++;
-                    if(health <= 91) {
-                        health = health + 10;
-                    }
-                    else {
-                        health = 101;
-                    }
-                    timer = timer/1.2;
-                    timerRun.timer.events = [];
-                    timerRun = game.time.events.loop(timer, updateCounter, this);
-                }
-                updateCounter();
-                enemyCount = 0;
-            }
-        }
-        else if (leftKey.isDown){
-
-            // 4) If the statment below is true, the function first moves the player
-            // (if it's in the middle to the far left and if it's far right to the middle)
-            // and all enemies, changes the pressTime to the time that the button was pressed,
-            // creates a new enemy and adds health and score to the player.
-
-            if(pressTime != leftKey.timeDown) {
-                if(player.x <= 150) {
-                    player.x = 0;
                     for (var i = 0; i < enemies.children.length; i++) {
                         enemies.children[i].position.y += 100;
                     }
-                }
-                else{
-                    player.x = player.x - 150;
-                    for (var i = 0; i < enemies.children.length; i++) {
-                        enemies.children[i].position.y += 100;
+                    pressTime = upKey.timeDown;
+                    enemyCount ++;
+                    resurrect();
+                    if(level >= 5 && doubleCreated === 0) {
+                        if(Math.floor(Math.random() * 2) === 1) {
+                            enemyCount ++;
+                            resurrect();
+                        }
                     }
+                    else {
+                        doubleCreated = 0;
+                    }
+                    if(health <= 99) {
+                        health = health + 2;
+                    }
+                    score ++;
 
-                }
-                pressTime = leftKey.timeDown;
-                enemyCount ++;
-                resurrect();
-                if(level >= 5 && doubleCreated === 0) {
-                    if(Math.floor(Math.random() * 2) === 1) {
-                        enemyCount ++;
-                        resurrect();
-                    }
-                }
-                else {
-                    doubleCreated = 0;
-                }
-                if(health <= 99) {
-                    health = health + 2;
-                }
-                score ++;
+                    // 5) If the score is more than 20 and evenly devided with 20 you level up,
+                    // get 10 points more health, changes the timer to a faster pace, empties the timer
+                    // and adds the new one
 
-                // 5) If the score is more than 20 and evenly devided with 20 you level up,
-                // get 10 points more health, changes the timer to a faster pace, empties the timer
-                // and adds the new one
-
-                if(score >= 20 && score % 20 === 0) {
-                    level ++;
-                    if(health <= 91) {
-                        health = health + 10;
-                    }
-                    else {
-                        health = 101;
-                    }
-                    levelText.setText('Level: ' + level);
-                    timer = timer/1.2;
-                    timerRun.timer.events = [];
-                    timerRun = game.time.events.loop(timer, updateCounter, this);
-                }
-                updateCounter();
-                enemyCount = 0;
-            }
-        }
-        else if (rightKey.isDown) {
-
-            // 4) If the statment below is true, the function first moves the player
-            // (if it's in the middle to the far right and if it's far left to the middle)
-            // and all enemies, changes the pressTime to the time that the button was pressed,
-            // creates a new enemy and adds health and score to the player.
-
-            if(pressTime != rightKey.timeDown) {
-                if(player.x >= 150){
-                    player.x = 300
-                    for (var i = 0; i < enemies.children.length; i++) {
-                        enemies.children[i].position.y += 100;
-                     }
-                }
-                else {
-                    player.x = player.x + 150;
-                    for (var i = 0; i < enemies.children.length; i++) {
-                        enemies.children[i].position.y += 100;
-                    }
-                }
-                pressTime = rightKey.timeDown;
-                enemyCount ++;
-                resurrect();
-                if(level >= 5 && doubleCreated === 0) {
-                    if(Math.floor(Math.random() * 2) === 1) {
-                        enemyCount ++;
-                        resurrect();
-                    }
-                }
-                else {
-                    doubleCreated = 0;
-                }
-                if(health <= 99) {
-                    health = health + 2;
-                }
-                score ++;
-
-                // 5) If the score is more than 20 and evenly devided with 20 you level up,
-                // get 10 points more health, changes the timer to a faster pace, empties the timer
-                // and adds the new one
-
-                if(score >= 20 && score % 20 === 0) {
-                    level ++;
-                    if(health <= 90) {
-                        health = health + 10
-                    }
-                    else {
-                        health = 101
-                    }
-                    levelText.setText('Level: ' + level);
-                    if(score % 20 === 0) {
+                    if(score >= 20 && score % 20 === 0) {
+                        level ++;
+                        if(health <= 91) {
+                            health = health + 10;
+                        }
+                        else {
+                            health = 101;
+                        }
                         timer = timer/1.2;
                         timerRun.timer.events = [];
                         timerRun = game.time.events.loop(timer, updateCounter, this);
                     }
+                    updateCounter();
+                    enemyCount = 0;
                 }
-                updateCounter();
-                enemyCount = 0;
+            }
+            else if (leftKey.isDown){
+
+                // 4) If the statment below is true, the function first moves the player
+                // (if it's in the middle to the far left and if it's far right to the middle)
+                // and all enemies, changes the pressTime to the time that the button was pressed,
+                // creates a new enemy and adds health and score to the player.
+
+                if(pressTime != leftKey.timeDown) {
+                    if(player.x <= 150) {
+                        player.x = 0;
+                        for (var i = 0; i < enemies.children.length; i++) {
+                            enemies.children[i].position.y += 100;
+                        }
+                    }
+                    else{
+                        player.x = player.x - 150;
+                        for (var i = 0; i < enemies.children.length; i++) {
+                            enemies.children[i].position.y += 100;
+                        }
+
+                    }
+                    pressTime = leftKey.timeDown;
+                    enemyCount ++;
+                    resurrect();
+                    if(level >= 5 && doubleCreated === 0) {
+                        if(Math.floor(Math.random() * 2) === 1) {
+                            enemyCount ++;
+                            resurrect();
+                        }
+                    }
+                    else {
+                        doubleCreated = 0;
+                    }
+                    if(health <= 99) {
+                        health = health + 2;
+                    }
+                    score ++;
+
+                    // 5) If the score is more than 20 and evenly devided with 20 you level up,
+                    // get 10 points more health, changes the timer to a faster pace, empties the timer
+                    // and adds the new one
+
+                    if(score >= 20 && score % 20 === 0) {
+                        level ++;
+                        if(health <= 91) {
+                            health = health + 10;
+                        }
+                        else {
+                            health = 101;
+                        }
+                        levelText.setText('Level: ' + level);
+                        timer = timer/1.2;
+                        timerRun.timer.events = [];
+                        timerRun = game.time.events.loop(timer, updateCounter, this);
+                    }
+                    updateCounter();
+                    enemyCount = 0;
+                }
+            }
+            else if (rightKey.isDown) {
+
+                // 4) If the statment below is true, the function first moves the player
+                // (if it's in the middle to the far right and if it's far left to the middle)
+                // and all enemies, changes the pressTime to the time that the button was pressed,
+                // creates a new enemy and adds health and score to the player.
+
+                if(pressTime != rightKey.timeDown) {
+                    if(player.x >= 150){
+                        player.x = 300
+                        for (var i = 0; i < enemies.children.length; i++) {
+                            enemies.children[i].position.y += 100;
+                         }
+                    }
+                    else {
+                        player.x = player.x + 150;
+                        for (var i = 0; i < enemies.children.length; i++) {
+                            enemies.children[i].position.y += 100;
+                        }
+                    }
+                    pressTime = rightKey.timeDown;
+                    enemyCount ++;
+                    resurrect();
+                    if(level >= 5 && doubleCreated === 0) {
+                        if(Math.floor(Math.random() * 2) === 1) {
+                            enemyCount ++;
+                            resurrect();
+                        }
+                    }
+                    else {
+                        doubleCreated = 0;
+                    }
+                    if(health <= 99) {
+                        health = health + 2;
+                    }
+                    score ++;
+
+                    // 5) If the score is more than 20 and evenly devided with 20 you level up,
+                    // get 10 points more health, changes the timer to a faster pace, empties the timer
+                    // and adds the new one
+
+                    if(score >= 20 && score % 20 === 0) {
+                        level ++;
+                        if(health <= 90) {
+                            health = health + 10
+                        }
+                        else {
+                            health = 101
+                        }
+                        levelText.setText('Level: ' + level);
+                        if(score % 20 === 0) {
+                            timer = timer/1.2;
+                            timerRun.timer.events = [];
+                            timerRun = game.time.events.loop(timer, updateCounter, this);
+                        }
+                    }
+                    updateCounter();
+                    enemyCount = 0;
+                }
+            }
+
+            // kills all enemies that are out of sight
+
+            for (var i = 0; i < enemies.children.length; i++) {
+                if(enemies.children[i].position.y >= 600) {
+                    // enemies.children[i].kill();
+                }
+
+                // checks if the player and the specific enemy overlaps
+
+                game.physics.arcade.overlap(enemies.children[i], player, gameOver, null, this);
             }
         }
-
-        // kills all enemies that are out of sight
-
-        for (var i = 0; i < enemies.children.length; i++) {
-            if(enemies.children[i].position.y >= 600) {
-                // enemies.children[i].kill();
+        else {
+            if(deathCount === 0) {
+                gameOver()
+                deathCount ++;
             }
-
-            // checks if the player and the specific enemy overlaps
-
-            game.physics.arcade.overlap(enemies.children[i], player, gameOver, null, this);
         }
     }
     else {
-        if(deathCount === 0) {
-            gameOver()
-            deathCount ++;
+        if(counterMenu === 0) {
+            startGame();
+            counterMenu ++;
         }
     }
 }
@@ -367,7 +378,13 @@ function update() {
 // sets deathcount to 1, health to 0 and updates the Counter.
 // Kills the enemies that are alive and kills the player.
 // adds the restart button.
-
+function startGame() {
+    game.stage.backgroundColor = '#00FF00';
+    text.setText('VesiPomppuPeli');
+    scoreText.setText('');
+    levelText.setText('');
+    button = game.add.button(game.world.centerX - 95, 400, 'button', start, this, 2, 1, 0); 
+}
 function gameOver() {
     game.stage.backgroundColor = '#992d2d';
 
@@ -382,6 +399,15 @@ function gameOver() {
     player.kill();
 
     button = game.add.button(game.world.centerX - 95, 400, 'button', reset, this, 2, 1, 0);
+}
+// function that starts the game. First inables the button, then makes it invisible, changes the backgroundcolor and sets
+// gameMenu to false.
+
+function start() {
+    button.inputEnabled = false;
+    button.visible = false;
+    game.stage.backgroundColor = '#124184';
+    gameMenu = !gameMenu;
 }
 
 // Adds the player to the bottom center, empties the enemy group and creates a new one. Set the scale.
