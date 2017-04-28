@@ -342,33 +342,23 @@ function update() {
                             health = 101
                         }
                         levelText.setText('Level: ' + level);
-                        if(score % 20 === 0) {
-                            timer = timer/1.2;
-                            timerRun.timer.events = [];
-                            timerRun = game.time.events.loop(timer, updateCounter, this);
-                        }
+                        timer = timer/1.2;
+                        timerRun.timer.events = [];
+                        timerRun = game.time.events.loop(timer, updateCounter, this);
                     }
                     updateCounter();
                     enemyCount = 0;
                 }
             }
-
-            // kills all enemies that are out of sight
-
+            // checks if the player and the specific enemy overlaps
             for (var i = 0; i < enemies.children.length; i++) {
-                if(enemies.children[i].position.y >= 600) {
-                    // enemies.children[i].kill();
-                }
-
-                // checks if the player and the specific enemy overlaps
                 game.physics.arcade.overlap(enemies.children[i], player, gameOver, null, this);
             }
-            console.log(enemies.children.length);
         }
         else {
             if(deathCount === 0) {
                 gameOver();
-                deathCount ++;
+                gameMenu = !gameMenu;
             }
         }
     }
@@ -425,7 +415,6 @@ function gameInstruction() {
 
 function gameOver() {
     game.stage.backgroundColor = '#992d2d';
-
     deathCount ++;
     health = 0;
     updateCounter();
@@ -438,16 +427,13 @@ function gameOver() {
 
     button = game.add.button(game.world.centerX - 95, 400, 'button', reset, this, 2, 1, 0);
     button2 = game.add.button(game.world.centerX - 95, 470, 'button', startGame, this, 2, 1, 0);
+    gameMenu = !gameMenu;
 }
 // function that starts the game. First inables the button, then makes it invisible, changes the backgroundcolor and sets
 // gameMenu to false.
 
 function start() {
-    player.visible = true;
-    button.kill();
-    button2.kill();
-    game.stage.backgroundColor = '#124184';
-    gameMenu = !gameMenu;
+    reset();
 }
 
 
@@ -477,7 +463,7 @@ function reset() {
 
     player.animations.add('run');
     player.animations.play('run', 10, true);
-
+    gameMenu = false;
     score = 0;
     health = 101;
     level = 1;
