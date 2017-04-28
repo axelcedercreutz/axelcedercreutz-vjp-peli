@@ -356,12 +356,14 @@ function update() {
             }
         }
         else {
+            //checks if there's been a deathcount, if there has been it starts the gameOver-screen
             if(deathCount === 0) {
                 gameOver();
                 gameMenu = !gameMenu;
             }
         }
     }
+    //if gameMenu is true it either shows the menu or instruction screen
     else {
         if(counterMenu === 0) {
             startGame();
@@ -373,6 +375,7 @@ function update() {
     }
 }
 
+// First screen. Makes player invisible, sets the background, the texts and buttons.
 
 function startGame() {
     player.visible = false;
@@ -396,6 +399,8 @@ function startGame() {
     }
     button2 = game.add.button(game.world.centerX - 95, 350, 'button', instruction, this, 2, 1, 0);
 }
+
+// What is shown in the instructions-screen. First makes the play-button invisible, then sets the background and sets the text.
 
 function gameInstruction() {
     button.inputEnabled = false;
@@ -429,17 +434,20 @@ function gameOver() {
     button2 = game.add.button(game.world.centerX - 95, 470, 'button', startGame, this, 2, 1, 0);
     gameMenu = !gameMenu;
 }
-// function that starts the game. First inables the button, then makes it invisible, changes the backgroundcolor and sets
-// gameMenu to false.
+
+// function that starts the game.
 
 function start() {
     reset();
 }
 
+// The intruction menu is shown
 
 function instruction() {
     instructionMenu = true;
 }
+
+// The back-button in the instruction menu. Resets menucounter, shows the play button and changes the background back.
 
 function backInstruction() {
     counterMenu = 0;
@@ -448,6 +456,7 @@ function backInstruction() {
     instructionMenu = false;
     game.stage.backgroundColor = '#00FF00';
 }
+
 // Adds the player to the bottom center, empties the enemy group and creates a new one. Set the scale.
 // adds the run animation for the player, sets the score, health and level and updates the counter and sets deathcount.
 // Enables the physics for the enemies and player. Sets the background, makes the button invisible and untouchable.
