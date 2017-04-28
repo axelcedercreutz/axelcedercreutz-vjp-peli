@@ -361,9 +361,9 @@ function update() {
                 }
 
                 // checks if the player and the specific enemy overlaps
-
                 game.physics.arcade.overlap(enemies.children[i], player, gameOver, null, this);
             }
+            console.log(enemies.children.length);
         }
         else {
             if(deathCount === 0) {
