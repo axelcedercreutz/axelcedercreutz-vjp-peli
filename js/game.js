@@ -96,10 +96,16 @@ function create() {
 // then it adds the physics for the enemy.
 
 function resurrect() {
+    //position that the enemy is placed
     var x = Math.floor(Math.random() * 3) * 150;
     var y = 0;
+    //the image it takes
     var key = 'rock';
+
     var frame = game.rnd.between(0, 36);
+
+    // Checking if it has created two on the last round. If it has, this determends where the next rock is placed.
+    // After a double row there can only be a single row.
     if(doubleCreated === 1) {
         if(x === 150) {
             for (var i = 1; i < enemies.children.length; i++) {
@@ -134,9 +140,14 @@ function resurrect() {
             }
         }
     }
+
+    // If there's been two enemies created it adds to the double count
+
     if(enemyCount === 2) {
         doubleCreated ++;
     }
+
+    // where the next one is placed
     if(enemyCount === 2 && player.x === 300 && (oldX === 300 || oldX === 150) && !doubleCreated) {
         x === 0;
     }
@@ -154,9 +165,11 @@ function resurrect() {
             x = 0;
         }
     }
+    //replace the last x with the new x
     oldX = x;
-
+    //creates a new enemy
     enemies.getFirstDead(true, x, y, key, frame);
+    //adds the physics to the enemy
     game.physics.arcade.enable([ enemies, player ], Phaser.Physics.ARCADE);
 
 }
