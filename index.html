@@ -15,6 +15,20 @@
 	<link href="css/styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+	<table style="width:100%" id="player">
+	      <tr>
+	        <td>Player</td>
+	        <td>Score</td>
+	      </tr>
+	    </table>
+	  </br>
+	    </br>
+
+	  <form>
+	    Player Name: <input type="text" name="FirstName" id="player_name"><br>
+	    Player Score: <input type="text" name="LastName" id="player_score"><br>
+	    <input type="button" onclick= "submitData()" value="Submit"/>
+	</form>
 </body>
 <!-- jQuery -->
 <script src="js/jquery.js"></script>
@@ -22,6 +36,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.js"></script>
 <!-- phaser -->
 <script type="text/javascript" src="js/phaser.js"></script>
+<script type="text/javascript" src="js/leaderboard.js"></script>
 <script type="text/javascript" src="js/game.js"></script>
 
 </html>
