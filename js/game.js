@@ -35,6 +35,8 @@ var health = 100;
 var text;
 var score = 0;
 var scoreText;
+var scores = [];
+var names = [];
 var level = 1;
 var levelText;
 
@@ -434,6 +436,12 @@ function gameInstruction() {
 function gameOver() {
     game.stage.backgroundColor = '#992d2d';
     deathCount ++;
+    var name = prompt("Add your name to your score to the scoreboard!", "");
+    scores.push(score);
+    names.push(name);
+    console.log(names);
+    console.log(scores);
+    var sendToDatabase = toObject(names,scores);
     health = 0;
     updateCounter();
 
@@ -446,6 +454,15 @@ function gameOver() {
     button = game.add.button(game.world.centerX - 95, 400, 'button', reset, this, 2, 1, 0);
     button2 = game.add.button(game.world.centerX - 95, 470, 'button', startGame, this, 2, 1, 0);
     gameMenu = !gameMenu;
+}
+
+function toObject(names, values) {
+        var result = {};
+        for (var i = 0; i < names.length; i++) {
+             result[names[i]] = values[i];
+        }
+        console.log(result);
+        return result;
 }
 
 // function that starts the game.
