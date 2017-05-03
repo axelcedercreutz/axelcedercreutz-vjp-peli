@@ -1,42 +1,9 @@
 {
-	"articles": [
-		{
-			"id": 1,
-			"text": {
-				"author": "Someone",
-				"date": "01/01/2017",
-				"language": "Gibbrish",
-				"title": "Surfing all day all night",
-				"article": "Feathered, Owen Wright big finner one wave set in the bricks Freddy P. rights transition snap backdoor goes vertical. Ocean glassy, glassy quiver frontside fins free one wave set the OB. Pigdog Margaret River kick out tides sand bottom, snap line-up. Fired up steeze turds in the lineup smash method wobble reef rash. Stale fish reef rash rights over head finner no kooks deep poor whippin da yams."
-			}
-		},
-		{
-			"id": 2,
-			"text": {
-				"author": "Someone Else",
-				"date": "02/01/2017",
-				"language": "More Gibbrish",
-				"title": "Surf Ipsum",
-				"article": "Barn dog spray big finner reef rash spittin' fog. Healthy float turning on tuck full wrap surfline waves glassy clean. Clamped hot glass vertical backside hack capped out poor-fair flow. Rad rail to rail wonky kook in da wa kook in da wa Kelly Slater coffee Parko layback hammer fighting for the peak. Bro drainer, swamped, stuffs the rail fog, punt heavy, firing wave of my life cutback."
-			}
-		},
-		{
-			"id": 3,
-			"text": {
-				"author": "Herman Melville",
-				"date": "18/10/1851",
-				"language": "English",
-				"title": "Moby Dick",
-				"article": "Ishmael travels in December from Manhattan Island to New Bedford with plans to sign up for a whaling voyage. The inn where he arrives is so crowded, he must share a bed with the tattooed Polynesian Queequeg, a harpooneer whose father was king of the (fictional) island of Rokovoko. The next morning, Ishmael and Queequeg attend Father Mapple's sermon on Jonah, then head for Nantucket. Ishmael signs up with the Quaker ship-owners Bildad and Peleg for a voyage on their whaler Pequod. Peleg describes Captain Ahab: \"He's a grand, ungodly, god-like man\" who nevertheless \"has his humanities\". They hire Queequeg the following morning. A man named Elijah prophesies a dire fate should Ishmael and Queequeg join Ahab. While provisions are loaded, shadowy figures board the ship. On a cold Christmas Day, the Pequod leaves the harbor."
-			}
-		}
-	],
 	"leaderboard": [
 		{
-			"names": [
-			],
-			"scores": [
-			]
+			"id": 0,
+			"name": "",
+			"score": ""
 		}
 	]
 }
