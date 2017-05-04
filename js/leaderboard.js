@@ -10,8 +10,16 @@ function getData() {
         array = $.map(leaderboard, function(value,index){
             return[value];
         })
+        console.log(array);
+        array = array.sort(SortByValue);
+        console.log(array);
         writeTable(array);
     });
+}
+function SortByValue(a, b){
+  var aScore = a.score;
+  var bScore = b.score; 
+  return ((bScore < aScore) ? -1 : ((bScore > aScore) ? 1 : 0));
 }
 function writeTable(array) {
     var count = 0;
