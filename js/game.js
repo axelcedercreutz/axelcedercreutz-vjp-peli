@@ -1,6 +1,6 @@
 // creates the game
 var game = new Phaser.Game(400, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update});
-
+var leaderboard = [];
 // defines the preloaded things
 function preload() {
     game.load.spritesheet('player', 'assets/fish-sprite.png', 80, 80, 8);
@@ -447,10 +447,12 @@ function gameOver() {
     button2 = game.add.button(game.world.centerX - 95, 470, 'button', startGame, this, 2, 1, 0);
     gameMenu = !gameMenu;
     var name = prompt("Add your name to your score to the scoreboard!", "");
-    leaderboardRef.push({
+    var newChildRef = ref.push();
+    newChildRef.set({
         name: name,
         score: score
-    })
+    });
+    getData();
 }
 
 function toObject(names, values) {

@@ -15,14 +15,16 @@
 	<link href="css/styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-	<table style="width:100%" id="player">
-	      <tr>
-	        <td style="text-align:center">Player</td>
-	        <td style="text-align:center">Score</td>
-	      </tr>
-	    </table>
-	  </br>
-	  </br>
+	<section class="game-section">
+		<h3>Peli</h3>
+		<h4>Highscore</h4>
+		<table id="tableBody">
+			<tr>
+				<th>Nimi</th>
+				<th>Tulos</th>
+			</tr>
+		</table>
+	</section>
 </body>
 <!-- jQuery -->
 <script src="js/jquery.js"></script>
@@ -30,10 +32,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.js"></script>
 <!-- Include Firebase Library -->
   <script src="https://cdn.firebase.com/js/client/2.2.3/firebase.js"></script>
-<!-- phaser -->
-<script type="text/javascript" src="js/phaser.js"></script>
 
 <script type="text/javascript" src="js/leaderboard.js"></script>
+<!-- phaser -->
+<script type="text/javascript" src="js/phaser.js"></script>
 <script type="text/javascript" src="js/game.js"></script>
 
 </html>
