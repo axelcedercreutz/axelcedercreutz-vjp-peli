@@ -5,6 +5,7 @@ var leaderboard = [];
 function preload() {
     game.load.spritesheet('player', 'assets/fish-sprite.png', 80, 80, 8);
     game.load.spritesheet('rock', 'assets/rock-sprite.png', 80, 80);
+    game.load.spritesheet('cannon', 'assets/cannon.png', 80, 80);
     game.load.spritesheet('button', 'assets/button_sprite_sheet.png', 193, 71);
     game.load.spritesheet('river','assets/river.jpg',600,400);
 }
@@ -67,10 +68,14 @@ function create() {
     backgroundImage = game.add.image(0, 0, 'river');
     enemies = game.add.group();
     enemies.createMultiple(1, 'rock', 0, false);
+    cannons = game.add.group();
+    cannons.createMultiple(1, 'cannon', 0, false);
+
     player = game.add.sprite(150, 470, 'player');
 
     player.scale.setTo(1.2,1.2);
     enemies.scale.setTo(1.05, 1.2);
+    cannons.scale.setTo(1.05, 1.2);
 
     player.animations.add('run');
     player.animations.play('run', 10, true);
@@ -82,8 +87,7 @@ function create() {
     levelText = game.add.text(game.world.centerX, 20, 'Level: 1', { font: "32px Arial", fill: "#ffffff", align: "center" });
     levelText.anchor.setTo(0.5, 0.5);
 
-    game.physics.arcade.enable([ enemies, player ], Phaser.Physics.ARCADE);
-
+    game.physics.arcade.enable([ enemies, player, cannons ], Phaser.Physics.ARCADE);
     upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
     leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
     rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
@@ -174,6 +178,21 @@ function resurrect() {
 
 }
 
+
+function buildRocket() {
+    //position that the enemy is placed
+    var x = Math.floor(Math.random() * 3) * 150;
+    var y = 0;
+    //the image it takes
+    var key = 'cannon';
+
+    var frame = game.rnd.between(0, 36);
+    //creates a new cannon
+    cannons.getFirstDead(true, x, y, key, frame);
+    //adds the physics to the enemy
+    game.physics.arcade.enable(cannons, Phaser.Physics.ARCADE);
+
+}
 // This function adds takes away health when timer runs and sets the new text.
 // It also does this when a key has been pressed so that the health, score and level
 // are correct.
@@ -209,6 +228,11 @@ function update() {
                     for (var i = 0; i < enemies.children.length; i++) {
                         enemies.children[i].position.y += 100;
                     }
+                    if(cannons.children.length > 1) {
+                        for (var i = 0; i < cannons.children.length; i++) {
+                            cannons.children[i].position.y += 100;
+                        }
+                    }
                     pressTime = upKey.timeDown;
                     enemyCount ++;
                     resurrect();
@@ -242,6 +266,9 @@ function update() {
                         timerRun.timer.events = [];
                         timerRun = game.time.events.loop(timer, updateCounter, this);
                     }
+                    if(score === 10 || score % 10 === 0) {
+                        buildRocket();
+                    }
                     updateCounter();
                     enemyCount = 0;
                 }
@@ -259,11 +286,21 @@ function update() {
                         for (var i = 0; i < enemies.children.length; i++) {
                             enemies.children[i].position.y += 100;
                         }
+                        if(cannons.children.length > 1) {
+                            for (var i = 0; i < cannons.children.length; i++) {
+                                cannons.children[i].position.y += 100;
+                            }
+                        }
                     }
                     else{
                         player.x = player.x - 150;
                         for (var i = 0; i < enemies.children.length; i++) {
                             enemies.children[i].position.y += 100;
+                        }
+                        if(cannons.children.length > 1) {
+                            for (var i = 0; i < cannons.children.length; i++) {
+                                cannons.children[i].position.y += 100;
+                            }
                         }
 
                     }
@@ -300,10 +337,13 @@ function update() {
                         timer = timer/1.2;
                         timerRun.timer.events = [];
                         timerRun = game.time.events.loop(timer, updateCounter, this);
+                    };
+                    if(score === 10 || score % 10 === 0) {
+                        buildRocket();
                     }
                     updateCounter();
                     enemyCount = 0;
-                }
+                };
             }
             else if (rightKey.isDown) {
 
@@ -317,14 +357,24 @@ function update() {
                         player.x = 300
                         for (var i = 0; i < enemies.children.length; i++) {
                             enemies.children[i].position.y += 100;
-                         }
+                        };
+                        if(cannons.children.length > 1) {
+                            for (var i = 0; i < cannons.children.length; i++) {
+                                cannons.children[i].position.y += 100;
+                            }
+                        }
                     }
                     else {
                         player.x = player.x + 150;
                         for (var i = 0; i < enemies.children.length; i++) {
                             enemies.children[i].position.y += 100;
+                        };
+                        if(cannons.children.length > 1) {
+                            for (var i = 0; i < cannons.children.length; i++) {
+                                cannons.children[i].position.y += 100;
+                            }
                         }
-                    }
+                    };
                     pressTime = rightKey.timeDown;
                     enemyCount ++;
                     resurrect();
@@ -332,14 +382,14 @@ function update() {
                         if(Math.floor(Math.random() * 2) === 1) {
                             enemyCount ++;
                             resurrect();
-                        }
+                        };
                     }
                     else {
                         doubleCreated = 0;
-                    }
+                    };
                     if(health <= 99) {
                         health = health + 2;
-                    }
+                    };
                     score ++;
 
                     // 5) If the score is more than 20 and evenly devided with 20 you level up,
@@ -353,40 +403,44 @@ function update() {
                         }
                         else {
                             health = 101
-                        }
+                        };
                         levelText.setText('Level: ' + level);
                         timer = timer/1.2;
                         timerRun.timer.events = [];
                         timerRun = game.time.events.loop(timer, updateCounter, this);
+                    };
+                    if(score === 10 || score % 10 === 0) {
+                        buildRocket();
                     }
                     updateCounter();
                     enemyCount = 0;
-                }
-            }
+                };
+            };
             // checks if the player and the specific enemy overlaps
             for (var i = 0; i < enemies.children.length; i++) {
                 game.physics.arcade.overlap(enemies.children[i], player, gameOver, null, this);
-            }
+                game.physics.arcade.overlap(cannons.children[i], player, jumpForward, null, this);
+            };
         }
         else {
             //checks if there's been a deathcount, if there has been it starts the gameOver-screen
             if(deathCount === 0) {
                 gameOver();
                 gameMenu = !gameMenu;
-            }
-        }
+            };
+        };
     }
     //if gameMenu is true it either shows the menu or instruction screen
     else {
         if(counterMenu === 0) {
             startGame();
             counterMenu ++;
-        }
+        };
         if(instructionMenu) {
             gameInstruction();
-        }
-    }
-}
+        };
+    };
+};
 
 // First screen. Makes player invisible, sets the background, the texts and buttons.
 
@@ -398,20 +452,20 @@ function startGame() {
     }
     else {
         menuText.setText('VesiPomppuPeli');
-    }
+    };
     menuText.anchor.setTo(0.5, 0.5);
     levelText.setText('');
     scoreText.setText('');
     text.setText('');
     if(button !== undefined) {
         button.kill();
-    }
+    };
     button = game.add.button(game.world.centerX - 95, 250, 'button', start, this, 2, 1, 0); 
     if(button2 !== undefined) {
         button2.kill();
-    }
+    };
     button2 = game.add.button(game.world.centerX - 95, 350, 'button', instruction, this, 2, 1, 0);
-}
+};
 
 // What is shown in the instructions-screen. First makes the play-button invisible, then sets the background and sets the text.
 
@@ -423,8 +477,8 @@ function gameInstruction() {
     if(button2 !== undefined) {
         button2.kill();
         button2 = game.add.button(game.world.centerX - 95, 350, 'button', backInstruction, this, 2, 1, 0);
-    }
-}
+    };
+};
 
 // gameOver screen. First changes the background color to red,
 // sets deathcount to 1, health to 0 and updates the Counter.
@@ -453,6 +507,10 @@ function gameOver() {
         score: score
     });
     getData();
+};
+
+function jumpForward() {
+    console.log("something happened");
 }
 
 function toObject(names, values) {
@@ -462,19 +520,19 @@ function toObject(names, values) {
         }
         console.log(result);
         return result;
-}
+};
 
 // function that starts the game.
 
 function start() {
     reset();
-}
+};
 
 // The intruction menu is shown
 
 function instruction() {
     instructionMenu = true;
-}
+};
 
 // The back-button in the instruction menu. Resets menucounter, shows the play button and changes the background back.
 
@@ -484,7 +542,7 @@ function backInstruction() {
     button.visible = true;
     instructionMenu = false;
     game.stage.backgroundColor = '#00FF00';
-}
+};
 
 // Adds the player to the bottom center, empties the enemy group and creates a new one. Set the scale.
 // adds the run animation for the player, sets the score, health and level and updates the counter and sets deathcount.
@@ -515,5 +573,5 @@ function reset() {
     timer =  Phaser.Timer.SECOND;
     timerRun = game.time.events.loop(timer, updateCounter, this);
     timerRun;
-}
+};
 
