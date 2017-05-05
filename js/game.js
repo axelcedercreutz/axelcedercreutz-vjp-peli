@@ -479,7 +479,7 @@ function gameInstruction() {
     menuText.setText('How to play the game?\n Watch out for the stones! \n Use the arrows to move');
     if(button2 !== undefined) {
         button2.kill();
-        button2 = game.add.button(game.world.centerX - 95, 350, 'menubutton', backInstruction, this, 2, 1, 0);
+        button2 = game.add.button(game.world.centerX - 95, 350, 'menubutton', backInstruction, this, 1, 2, 0);
     };
 };
 
