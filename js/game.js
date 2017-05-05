@@ -191,6 +191,25 @@ function buildRocket() {
 
     var frame = game.rnd.between(0, 36);
     //creates a new cannon
+    console.log(x);
+    if(enemies.children[0].x === x && enemies.children[0].y === y){
+        x = x - 150;
+    }
+    for (var i = 1; i < enemies.children.length; i++) {
+        if(enemies.children[i].x === x && enemies.children[i].y === y){
+            if(x + 150 === enemies.children[i - 1].x && enemies.children[i - 1].y === y) {
+                console.log(x);
+                x = 0;
+            }
+            else if (x - 150 === enemies.children[i - 1].x && enemies.children[i - 1].y === y) {
+                console.log(x);
+                x = 300;
+            }
+            else {
+                x = x - 150;
+            }
+        }
+    }
     cannons.getFirstDead(true, x, y, key, frame);
     //adds the physics to the enemy
     game.physics.arcade.enable(cannons, Phaser.Physics.ARCADE);
@@ -269,7 +288,7 @@ function update() {
                         timerRun.timer.events = [];
                         timerRun = game.time.events.loop(timer, updateCounter, this);
                     }
-                    if(score === 10 || score % 10 === 0) {
+                    if(score % 1 === 0) {
                         buildRocket();
                     }
                     updateCounter();
@@ -341,7 +360,7 @@ function update() {
                         timerRun.timer.events = [];
                         timerRun = game.time.events.loop(timer, updateCounter, this);
                     };
-                    if(score === 10 || score % 10 === 0) {
+                    if(score % 1 === 0) {
                         buildRocket();
                     }
                     updateCounter();
@@ -412,7 +431,7 @@ function update() {
                         timerRun.timer.events = [];
                         timerRun = game.time.events.loop(timer, updateCounter, this);
                     };
-                    if(score === 10 || score % 10 === 0) {
+                    if(score % 1 === 0) {
                         buildRocket();
                     }
                     updateCounter();
@@ -422,7 +441,9 @@ function update() {
             // checks if the player and the specific enemy overlaps
             for (var i = 0; i < enemies.children.length; i++) {
                 game.physics.arcade.overlap(enemies.children[i], player, gameOver, null, this);
-                game.physics.arcade.overlap(cannons.children[i], player, jumpForward, null, this);
+                if(cannons.children.length > 0) {
+                    game.physics.arcade.overlap(cannons.children[i], player, jumpForward, null, this);
+                }
             };
         }
         else {
@@ -497,7 +518,9 @@ function gameOver() {
     for (var i = 0; i < enemies.children.length; i++) {
         enemies.children[i].kill();
     }
-
+    for (var i = 0; i < cannons.children.length; i++) {
+        cannons.children[i].kill();
+    }
     player.kill();
 
     button = game.add.button(game.world.centerX - 110, 400, 'playbutton', reset, this, 0, 0, 0);
@@ -513,7 +536,12 @@ function gameOver() {
 };
 
 function jumpForward() {
-    console.log("something happened");
+    for (var i = 0; i < cannons.children.length; i++) {
+        console.log(cannons.children[i].y);
+        if(cannons.children[i].x === player.x && cannons.children[i].y + 70 === player.y) {
+            cannons.children[i].kill();
+        }
+    }
 }
 
 function toObject(names, values) {
@@ -554,12 +582,18 @@ function backInstruction() {
 
 function reset() {
     backgroundImage.visible = true;
-    player = game.add.sprite(150, 470, 'player');
     enemies = game.add.group();
     enemies.createMultiple(1, 'rock', 0, false);
 
+    cannons = game.add.group();
+    cannons.createMultiple(1, 'cannon', 0, false);
+
+    player = game.add.sprite(150, 470, 'player');
+
     player.scale.setTo(1.2,1.2);
     enemies.scale.setTo(1.05, 1.2);
+    cannons.scale.setTo(1.05, 1.2);
+    
 
     player.animations.add('run');
     player.animations.play('run', 10, true);
@@ -569,7 +603,7 @@ function reset() {
     level = 1;
     updateCounter();
     deathCount = 0;
-    game.physics.arcade.enable([ enemies, player ], Phaser.Physics.ARCADE);
+    game.physics.arcade.enable([ enemies, player, cannons ], Phaser.Physics.ARCADE);
     button.kill();
     button2.kill();
     timerRun.timer.events = [];
