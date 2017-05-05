@@ -228,7 +228,7 @@ function update() {
                     for (var i = 0; i < enemies.children.length; i++) {
                         enemies.children[i].position.y += 100;
                     }
-                    if(cannons.children.length > 1) {
+                    if(cannons.children.length > 0) {
                         for (var i = 0; i < cannons.children.length; i++) {
                             cannons.children[i].position.y += 100;
                         }
@@ -286,7 +286,7 @@ function update() {
                         for (var i = 0; i < enemies.children.length; i++) {
                             enemies.children[i].position.y += 100;
                         }
-                        if(cannons.children.length > 1) {
+                        if(cannons.children.length > 0) {
                             for (var i = 0; i < cannons.children.length; i++) {
                                 cannons.children[i].position.y += 100;
                             }
@@ -297,7 +297,7 @@ function update() {
                         for (var i = 0; i < enemies.children.length; i++) {
                             enemies.children[i].position.y += 100;
                         }
-                        if(cannons.children.length > 1) {
+                        if(cannons.children.length > 0) {
                             for (var i = 0; i < cannons.children.length; i++) {
                                 cannons.children[i].position.y += 100;
                             }
@@ -358,7 +358,7 @@ function update() {
                         for (var i = 0; i < enemies.children.length; i++) {
                             enemies.children[i].position.y += 100;
                         };
-                        if(cannons.children.length > 1) {
+                        if(cannons.children.length > 0) {
                             for (var i = 0; i < cannons.children.length; i++) {
                                 cannons.children[i].position.y += 100;
                             }
@@ -369,7 +369,7 @@ function update() {
                         for (var i = 0; i < enemies.children.length; i++) {
                             enemies.children[i].position.y += 100;
                         };
-                        if(cannons.children.length > 1) {
+                        if(cannons.children.length > 0) {
                             for (var i = 0; i < cannons.children.length; i++) {
                                 cannons.children[i].position.y += 100;
                             }
