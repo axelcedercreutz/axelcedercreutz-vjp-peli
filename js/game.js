@@ -6,6 +6,7 @@ function preload() {
     game.load.spritesheet('player', 'assets/fish-sprite.png', 80, 80, 8);
     game.load.spritesheet('rock', 'assets/rock-sprite.png', 80, 80);
     game.load.spritesheet('button', 'assets/button_sprite_sheet.png', 193, 71);
+    game.load.spritesheet('river','assets/river.jpg',600,400);
 }
 // first menu site variables
 var gameMenu = true;
@@ -61,10 +62,9 @@ var deathCount = 0;
 function create() {
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
-
     game.stage.backgroundColor = '#124184';
     game.canvas.id = "game";
-
+    backgroundImage = game.add.image(0, 0, 'river');
     enemies = game.add.group();
     enemies.createMultiple(1, 'rock', 0, false);
     player = game.add.sprite(150, 470, 'player');
@@ -391,8 +391,8 @@ function update() {
 // First screen. Makes player invisible, sets the background, the texts and buttons.
 
 function startGame() {
+    backgroundImage.visible = false;
     player.visible = false;
-    game.stage.backgroundColor = '#00FF00';
     if(menuText === undefined) {
         menuText = game.add.text(game.world.centerX, 100, 'VesiPomppuPeli', { font: "32px Arial", fill: "#ffffff", align: "center" });
     }
@@ -492,6 +492,7 @@ function backInstruction() {
 // Empties the timers, sets the time for the timer and creates the new timer.
 
 function reset() {
+    backgroundImage.visible = true;
     player = game.add.sprite(150, 470, 'player');
     enemies = game.add.group();
     enemies.createMultiple(1, 'rock', 0, false);
@@ -508,9 +509,6 @@ function reset() {
     updateCounter();
     deathCount = 0;
     game.physics.arcade.enable([ enemies, player ], Phaser.Physics.ARCADE);
-
-    game.stage.backgroundColor = '#124184';
-
     button.kill();
     button2.kill();
     timerRun.timer.events = [];
