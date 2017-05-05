@@ -6,7 +6,10 @@ function preload() {
     game.load.spritesheet('player', 'assets/fish-sprite.png', 80, 80, 8);
     game.load.spritesheet('rock', 'assets/rock-sprite.png', 80, 80);
     game.load.spritesheet('cannon', 'assets/cannon.png', 80, 80);
-    game.load.spritesheet('button', 'assets/button_sprite_sheet.png', 193, 71);
+    game.load.spritesheet('playbutton', 'assets/playbutton.png', 220, 90, 2);
+    game.load.spritesheet('menubutton', 'assets/menubutton.png', 220, 90, 2);
+    game.load.spritesheet('infobutton', 'assets/infobutton.png', 220, 90, 2);
+    game.load.spritesheet('startscreen','assets/startscreen.jpg',600,400);
     game.load.spritesheet('river','assets/river.jpg',600,400);
 }
 // first menu site variables
@@ -63,7 +66,7 @@ var deathCount = 0;
 function create() {
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
-    game.stage.backgroundColor = '#124184';
+    menuImage = game.add.image(0,0,'startscreen');
     game.canvas.id = "game";
     backgroundImage = game.add.image(0, 0, 'river');
     enemies = game.add.group();
@@ -460,11 +463,11 @@ function startGame() {
     if(button !== undefined) {
         button.kill();
     };
-    button = game.add.button(game.world.centerX - 95, 250, 'button', start, this, 2, 1, 0); 
+    button = game.add.button(game.world.centerX - 95, 250, 'playbutton', start, this, 1, 2, 0); 
     if(button2 !== undefined) {
         button2.kill();
     };
-    button2 = game.add.button(game.world.centerX - 95, 350, 'button', instruction, this, 2, 1, 0);
+    button2 = game.add.button(game.world.centerX - 95, 350, 'infobutton', instruction, this, 1, 2, 0);
 };
 
 // What is shown in the instructions-screen. First makes the play-button invisible, then sets the background and sets the text.
@@ -476,7 +479,7 @@ function gameInstruction() {
     menuText.setText('How to play the game?\n Watch out for the stones! \n Use the arrows to move');
     if(button2 !== undefined) {
         button2.kill();
-        button2 = game.add.button(game.world.centerX - 95, 350, 'button', backInstruction, this, 2, 1, 0);
+        button2 = game.add.button(game.world.centerX - 95, 350, 'menubutton', backInstruction, this, 2, 1, 0);
     };
 };
 
@@ -497,8 +500,8 @@ function gameOver() {
 
     player.kill();
 
-    button = game.add.button(game.world.centerX - 95, 400, 'button', reset, this, 2, 1, 0);
-    button2 = game.add.button(game.world.centerX - 95, 470, 'button', startGame, this, 2, 1, 0);
+    button = game.add.button(game.world.centerX - 110, 400, 'playbutton', reset, this, 0, 0, 0);
+    button2 = game.add.button(game.world.centerX - 110, 500, 'menubutton', startGame, this, 0, 0, 0);
     gameMenu = !gameMenu;
     var name = prompt("Add your name to your score to the scoreboard!", "");
     var newChildRef = ref.push();
