@@ -259,14 +259,16 @@ function updateCounter() {
 // 1) Checks if health is over 0. If not, it runs the gameOver-function (only once though).
 // 2) Checks if up-, left- or right-key is down.
 // 3) Checks if the button has already been pressed this time, if it has it does nothing
-
+var justPressed = false;
 function update() {
     if(!gameMenu) {
         menuText.setText('');
         if(health > 0) {
             if(upKey.isDown){
+                if(justPressed) {
                 splashsound.play('sound');
-
+        }
+                justPressed = true;
                 // 4) If the statment below is true, the function first moves all enemies,
                 // changes the pressTime to the time that the button was pressed, creates a new enemy
                 // and adds health and score to the player.
@@ -322,7 +324,10 @@ function update() {
                 }
             }
             else if (leftKey.isDown){
-                splashsound.play('sound');
+                if(justPressed) {
+            splashsound.play('sound');
+        }
+                justPressed = true;
                 // 4) If the statment below is true, the function first moves the player
                 // (if it's in the middle to the far left and if it's far right to the middle)
                 // and all enemies, changes the pressTime to the time that the button was pressed,
@@ -394,7 +399,10 @@ function update() {
                 };
             }
             else if (rightKey.isDown) {
-                splashsound.play('sound');
+                if(justPressed) {
+            splashsound.play('sound');
+        }
+                justPressed = true;
                 // 4) If the statment below is true, the function first moves the player
                 // (if it's in the middle to the far right and if it's far left to the middle)
                 // and all enemies, changes the pressTime to the time that the button was pressed,
@@ -463,6 +471,8 @@ function update() {
                     updateCounter();
                     enemyCount = 0;
                 };
+            } else {
+                justPressed = false;
             };
             // checks if the player and the specific enemy overlaps
             for (var i = 0; i < enemies.children.length; i++) {
