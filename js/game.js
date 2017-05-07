@@ -11,6 +11,7 @@ function preload() {
     game.load.spritesheet('infobutton', 'assets/infobutton.png', 220, 90, 2);
     game.load.spritesheet('startscreen','assets/startscreen.jpg',600,400);
     game.load.spritesheet('river','assets/river.jpg',600,400);
+    game.load.spritesheet('logo', 'assets/logo.png', 300, 270);
 }
 // first menu site variables
 var gameMenu = true;
@@ -67,6 +68,7 @@ function create() {
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
     menuImage = game.add.image(0,0,'startscreen');
+    logo = game.add.image(70, 40, 'logo')
     game.canvas.id = "game";
     backgroundImage = game.add.image(0, 0, 'river');
     enemies = game.add.group();
@@ -484,11 +486,11 @@ function startGame() {
     if(button !== undefined) {
         button.kill();
     };
-    button = game.add.button(game.world.centerX - 95, 250, 'playbutton', start, this, 1, 2, 0); 
+    button = game.add.button(game.world.centerX - 100, 350, 'playbutton', start, this, 1, 2, 0); 
     if(button2 !== undefined) {
         button2.kill();
     };
-    button2 = game.add.button(game.world.centerX - 95, 350, 'infobutton', instruction, this, 1, 2, 0);
+    button2 = game.add.button(game.world.centerX - 100, 450, 'infobutton', instruction, this, 1, 2, 0);
 };
 
 // What is shown in the instructions-screen. First makes the play-button invisible, then sets the background and sets the text.
