@@ -114,7 +114,7 @@ function create() {
     killsound.addMarker('sound', 0, 1.0);
     clicksound.addMarker('sound', 0, 2.0);
     cannonsound.addMarker('sound', 0, 1.0);
-    splashsound.addMarker('sound', 0, 0.5);
+    splashsound.addMarker('sound', 0, 0.5, 0.4);
 
     scoreText = game.add.text(game.world.centerX, game.world.centerY + 40, 'Score: 0', { font: "32px Arial", fill: "#ffffff", align: "center" });
     scoreText.anchor.setTo(0.5, 0.5);
