@@ -474,11 +474,8 @@ function startGame() {
     backgroundImage.visible = false;
     player.visible = false;
     if(menuText === undefined) {
-        menuText = game.add.text(game.world.centerX, 100, 'VesiPomppuPeli', { font: "32px Arial", fill: "#ffffff", align: "center" });
+        menuText = game.add.text(game.world.centerX, 100, '', { font: "32px Arial", fill: "#ffffff", align: "center" });
     }
-    else {
-        menuText.setText('VesiPomppuPeli');
-    };
     menuText.anchor.setTo(0.5, 0.5);
     levelText.setText('');
     scoreText.setText('');
