@@ -265,7 +265,7 @@ function update() {
         menuText.setText('');
         if(health > 0) {
             if(upKey.isDown){
-                if(justPressed) {
+                if(!justPressed) {
                 splashsound.play('sound');
         }
                 justPressed = true;
@@ -324,7 +324,7 @@ function update() {
                 }
             }
             else if (leftKey.isDown){
-                if(justPressed) {
+                if(!justPressed) {
             splashsound.play('sound');
         }
                 justPressed = true;
@@ -399,7 +399,7 @@ function update() {
                 };
             }
             else if (rightKey.isDown) {
-                if(justPressed) {
+                if(!justPressed) {
             splashsound.play('sound');
         }
                 justPressed = true;
