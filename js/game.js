@@ -474,8 +474,9 @@ function startGame() {
     backgroundImage.visible = false;
     player.visible = false;
     if(menuText === undefined) {
-        menuText = game.add.text(game.world.centerX, 100, '', { font: "32px Arial", fill: "#ffffff", align: "center" });
+        menuText = game.add.text(game.world.centerX, 530, '', { font: "24px Arial", fill: "#000000", align: "center" });
     }
+    menuText.setText('');
     menuText.anchor.setTo(0.5, 0.5);
     levelText.setText('');
     scoreText.setText('');
@@ -496,10 +497,10 @@ function gameInstruction() {
     button.inputEnabled = false;
     button.visible = false;
     game.stage.backgroundColor = '#000000';
-    menuText.setText('How to play the game?\n Watch out for the stones! \n Use the arrows to move');
+    menuText.setText('How to play the game?\n Watch out for the stones! \n Use left, right and up\n arrows to move');
     if(button2 !== undefined) {
         button2.kill();
-        button2 = game.add.button(game.world.centerX - 95, 350, 'menubutton', backInstruction, this, 1, 2, 0);
+        button2 = game.add.button(game.world.centerX - 100, 350, 'menubutton', backInstruction, this, 1, 2, 0);
     };
 };
 
