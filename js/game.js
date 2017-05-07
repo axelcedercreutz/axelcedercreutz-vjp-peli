@@ -12,6 +12,22 @@ function preload() {
     game.load.spritesheet('startscreen','assets/startscreen.jpg',600,400);
     game.load.spritesheet('river','assets/river.jpg',600,400);
     game.load.spritesheet('logo', 'assets/logo.png', 300, 270);
+    
+    game.load.spritesheet('health10', 'assets/health10.png', 50, 170);
+    game.load.spritesheet('health20', 'assets/health20.png', 50, 170);
+    game.load.spritesheet('health30', 'assets/health30.png', 50, 170);
+    game.load.spritesheet('health40', 'assets/health40.png', 50, 170);
+    game.load.spritesheet('health50', 'assets/health50.png', 50, 170);
+    game.load.spritesheet('health60', 'assets/health60.png', 50, 170);
+    game.load.spritesheet('health70', 'assets/health70.png', 50, 170);
+    game.load.spritesheet('health80', 'assets/health80.png', 50, 170);
+    game.load.spritesheet('health90', 'assets/health90.png', 50, 170);
+    game.load.spritesheet('health100', 'assets/health100.png', 50, 170);
+    
+    game.load.audio('killsound', 'assets/audio/killsound.wav');
+    game.load.audio('splashsound', 'assets/audio/splashsound.wav');
+    game.load.audio('clicksound', 'assets/audio/clicksound.wav');
+    game.load.audio('cannonsound', 'assets/audio/cannonsound.wav');
 }
 // first menu site variables
 var gameMenu = true;
@@ -84,6 +100,21 @@ function create() {
 
     player.animations.add('run');
     player.animations.play('run', 10, true);
+    
+    //sounds
+    killsound = game.add.audio('killsound');
+    killsound.allowMultiple = true;
+    clicksound = game.add.audio('clicksound');
+    clicksound.allowMultiple = true;
+    cannonsound = game.add.audio('cannonsound');
+    cannonsound.allowMultiple = true;
+    splashsound = game.add.audio('splashsound');
+    splashsound.allowMultiple = true;
+    
+    killsound.addMarker('sound', 0, 1.0);
+    clicksound.addMarker('sound', 0, 2.0);
+    cannonsound.addMarker('sound', 0, 1.0);
+    splashsound.addMarker('sound', 0, 0.5);
 
     scoreText = game.add.text(game.world.centerX, game.world.centerY + 40, 'Score: 0', { font: "32px Arial", fill: "#ffffff", align: "center" });
     scoreText.anchor.setTo(0.5, 0.5);
@@ -234,6 +265,7 @@ function update() {
         menuText.setText('');
         if(health > 0) {
             if(upKey.isDown){
+                splashsound.play('sound');
 
                 // 4) If the statment below is true, the function first moves all enemies,
                 // changes the pressTime to the time that the button was pressed, creates a new enemy
@@ -290,7 +322,7 @@ function update() {
                 }
             }
             else if (leftKey.isDown){
-
+                splashsound.play('sound');
                 // 4) If the statment below is true, the function first moves the player
                 // (if it's in the middle to the far left and if it's far right to the middle)
                 // and all enemies, changes the pressTime to the time that the button was pressed,
@@ -362,7 +394,7 @@ function update() {
                 };
             }
             else if (rightKey.isDown) {
-
+                splashsound.play('sound');
                 // 4) If the statment below is true, the function first moves the player
                 // (if it's in the middle to the far right and if it's far left to the middle)
                 // and all enemies, changes the pressTime to the time that the button was pressed,
@@ -467,6 +499,8 @@ function startGame() {
     player.visible = false;
     if(menuText === undefined) {
         menuText = game.add.text(game.world.centerX, 530, '', { font: "24px Arial", fill: "#000000", align: "center" });
+    } else {
+        clicksound.play('sound');
     }
     menuText.setText('');
     menuText.anchor.setTo(0.5, 0.5);
@@ -486,6 +520,7 @@ function startGame() {
 // What is shown in the instructions-screen. First makes the play-button invisible, then sets the background and sets the text.
 
 function gameInstruction() {
+    
     button.inputEnabled = false;
     button.visible = false;
     game.stage.backgroundColor = '#000000';
@@ -503,6 +538,7 @@ function gameInstruction() {
 
 function gameOver() {
     game.stage.backgroundColor = '#992d2d';
+    killsound.play('sound');
     deathCount ++;
     health = 0;
     updateCounter();
@@ -554,12 +590,14 @@ function start() {
 // The intruction menu is shown
 
 function instruction() {
+    clicksound.play('sound');
     instructionMenu = true;
 };
 
 // The back-button in the instruction menu. Resets menucounter, shows the play button and changes the background back.
 
 function backInstruction() {
+    clicksound.play('sound');
     counterMenu = 0;
     button.inputEnabled = true;
     button.visible = true;
@@ -573,6 +611,7 @@ function backInstruction() {
 // Empties the timers, sets the time for the timer and creates the new timer.
 
 function reset() {
+    clicksound.play('sound');
     backgroundImage.visible = true;
     enemies = game.add.group();
     enemies.createMultiple(1, 'rock', 0, false);
