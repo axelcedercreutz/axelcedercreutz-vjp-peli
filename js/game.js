@@ -155,14 +155,6 @@ function resurrect() {
     if(enemyCount === 2) {
         doubleCreated ++;
     }
-
-    // where the next one is placed
-    if(enemyCount === 2 && player.x === 300 && (oldX === 300 || oldX === 150) && !doubleCreated) {
-        x === 0;
-    }
-    else if(enemyCount === 2 && player.x === 0 && (oldX == 150 || oldX === 0) && !doubleCreated) {
-        x === 300;
-    }
     else if(x === oldX) {
         if(x === 0) {
             x = 150;
@@ -260,7 +252,7 @@ function update() {
                     pressTime = upKey.timeDown;
                     enemyCount ++;
                     resurrect();
-                    if(level >= 5 && doubleCreated === 0) {
+                    if(level >= 1 && doubleCreated === 0) {
                         if(Math.floor(Math.random() * 2) === 1) {
                             enemyCount ++;
                             resurrect();
@@ -331,7 +323,7 @@ function update() {
                     pressTime = leftKey.timeDown;
                     enemyCount ++;
                     resurrect();
-                    if(level >= 5 && doubleCreated === 0) {
+                    if(level >= 1 && doubleCreated === 0) {
                         if(Math.floor(Math.random() * 2) === 1) {
                             enemyCount ++;
                             resurrect();
@@ -402,7 +394,7 @@ function update() {
                     pressTime = rightKey.timeDown;
                     enemyCount ++;
                     resurrect();
-                    if(level >= 5 && doubleCreated === 0) {
+                    if(level >= 1 && doubleCreated === 0) {
                         if(Math.floor(Math.random() * 2) === 1) {
                             enemyCount ++;
                             resurrect();
@@ -526,13 +518,13 @@ function gameOver() {
     button = game.add.button(game.world.centerX - 110, 400, 'playbutton', reset, this, 0, 0, 0);
     button2 = game.add.button(game.world.centerX - 110, 500, 'menubutton', startGame, this, 0, 0, 0);
     gameMenu = !gameMenu;
-    var name = prompt("Add your name to your score to the scoreboard!", "");
-    var newChildRef = ref.push();
-    newChildRef.set({
-        name: name,
-        score: score
-    });
-    getData();
+    // var name = prompt("Add your name to your score to the scoreboard!", "");
+    // var newChildRef = ref.push();
+    // newChildRef.set({
+    //     name: name,
+    //     score: score
+    // });
+    // getData();
 };
 
 function jumpForward() {
