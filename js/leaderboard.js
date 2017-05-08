@@ -10,9 +10,7 @@ function getData() {
         array = $.map(leaderboard, function(value,index){
             return[value];
         })
-        console.log(array);
         array = array.sort(SortByValue);
-        console.log(array);
         writeTable(array);
     });
 }

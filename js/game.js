@@ -216,18 +216,15 @@ function buildRocket() {
 
     var frame = game.rnd.between(0, 36);
     //creates a new cannon
-    console.log(x);
     if(enemies.children[0].x === x && enemies.children[0].y === y){
         x = x - 150;
     }
     for (var i = 1; i < enemies.children.length; i++) {
         if(enemies.children[i].x === x && enemies.children[i].y === y){
             if(x + 150 === enemies.children[i - 1].x && enemies.children[i - 1].y === y) {
-                console.log(x);
                 x = 0;
             }
             else if (x - 150 === enemies.children[i - 1].x && enemies.children[i - 1].y === y) {
-                console.log(x);
                 x = 300;
             }
             else {
@@ -254,43 +251,43 @@ function updateCounter() {
         levelText.setText('Level: ' + level);
         if(health >= 90) {
             healthImage.kill();
-            healthImage = game.add.image(175, 430, 'health100');
+            healthImage = game.add.sprite(healthImage.x, 450, 'health100');
         }
         else if(health >= 80 && health < 90) {
             healthImage.kill();
-            healthImage = game.add.image(175, 430, 'health90');
+            healthImage = game.add.image(healthImage.x, 450, 'health90');
         }
         else if(health >= 70 && health < 80) {
             healthImage.kill();
-            healthImage = game.add.image(175, 430, 'health80');
+            healthImage = game.add.image(healthImage.x, 450, 'health80');
         }
         else if(health >= 60 && health < 70) {
             healthImage.kill();
-            healthImage = game.add.image(175, 430, 'health70');
+            healthImage = game.add.image(healthImage.x, 450, 'health70');
         }
         else if(health >= 50 && health < 60) {
             healthImage.kill();
-            healthImage = game.add.image(175, 430, 'health60');
+            healthImage = game.add.image(healthImage.x, 450, 'health60');
         }
         else if(health >= 40 && health < 50) {
             healthImage.kill();
-            healthImage = game.add.image(175, 430, 'health50');
+            healthImage = game.add.image(healthImage.x, 450, 'health50');
         }
         else if(health >= 30 && health < 40) {
             healthImage.kill();
-            healthImage = game.add.image(175, 430, 'health40');
+            healthImage = game.add.image(healthImage.x, 450, 'health40');
         }
         else if(health >= 20 && health < 30) {
             healthImage.kill();
-            healthImage = game.add.image(175, 430, 'health30');
+            healthImage = game.add.image(healthImage.x, 450, 'health30');
         }
         else if(health >= 10 && health < 20) {
             healthImage.kill();
-            healthImage = game.add.image(175, 430, 'health20');
+            healthImage = game.add.image(healthImage.x, 450, 'health20');
         }
         else {
             healthImage.kill();
-            healthImage = game.add.image(175, 430, 'health10');
+            healthImage = game.add.image(healthImage.x, 450, 'health10');
         }
         healthImage.scale.setTo(0.3, 0.3);
     }
@@ -377,6 +374,7 @@ function update() {
                 if(pressTime != leftKey.timeDown) {
                     if(player.x <= 150) {
                         player.x = 0;
+                        healthImage.x = 24;
                         for (var i = 0; i < enemies.children.length; i++) {
                             enemies.children[i].position.y += 100;
                         }
@@ -388,6 +386,7 @@ function update() {
                     }
                     else{
                         player.x = player.x - 150;
+                        healthImage.x = healthImage.x - 150;
                         for (var i = 0; i < enemies.children.length; i++) {
                             enemies.children[i].position.y += 100;
                         }
@@ -451,7 +450,8 @@ function update() {
 
                 if(pressTime != rightKey.timeDown) {
                     if(player.x >= 150){
-                        player.x = 300
+                        player.x = 300;
+                        healthImage.x = 324;
                         for (var i = 0; i < enemies.children.length; i++) {
                             enemies.children[i].position.y += 100;
                         };
@@ -463,6 +463,7 @@ function update() {
                     }
                     else {
                         player.x = player.x + 150;
+                        healthImage.x = healthImage.x + 150;
                         for (var i = 0; i < enemies.children.length; i++) {
                             enemies.children[i].position.y += 100;
                         };
@@ -601,6 +602,7 @@ function gameOver() {
         cannons.children[i].kill();
     }
     player.kill();
+    healthImage.kill();
 
     button = game.add.button(game.world.centerX - 110, 400, 'playbutton', reset, this, 0, 0, 0);
     button2 = game.add.button(game.world.centerX - 110, 500, 'menubutton', startGame, this, 0, 0, 0);
@@ -616,7 +618,6 @@ function gameOver() {
 
 function jumpForward() {
     for (var i = 0; i < cannons.children.length; i++) {
-        console.log(cannons.children[i].y);
         if(cannons.children[i].x === player.x && cannons.children[i].y + 70 === player.y) {
             cannons.children[i].kill();
         }
@@ -628,7 +629,6 @@ function toObject(names, values) {
         for (var i = 0; i < names.length; i++) {
              result[names[i]] = values[i];
         }
-        console.log(result);
         return result;
 };
 
@@ -671,7 +671,7 @@ function reset() {
     cannons.createMultiple(1, 'cannon', 0, false);
 
     player = game.add.sprite(150, 470, 'player');
-    healthImage = game.add.image(150, 430, 'health100');
+    healthImage = game.add.sprite(174, 450, 'health100');
 
     player.scale.setTo(1.2,1.2);
     enemies.scale.setTo(1.05, 1.2);
