@@ -1,8 +1,12 @@
+$('.game-section').hide();
 var ref = new Firebase("https://vjp-peli-5db4f.firebaseio.com/");
 ref = ref.child("leaderboard");
 var array = [];
 $(document).ready(function(){
     getData();
+    $('#highscore-button').click('click', function(e) {
+        $('.game-section').toggle();
+    });
 });
 function getData() {
     $.getJSON('https://vjp-peli-5db4f.firebaseio.com/.json',function(res){
