@@ -251,9 +251,36 @@ function buildRocket() {
     game.physics.arcade.enable(cannons, Phaser.Physics.ARCADE);
 
 }
+
+
+function jumpForward() {
+    cannonsound.play('sound');
+    for (var i = 0; i < cannons.children.length; i++) {
+        if(cannons.children[i].x === player.x && cannons.children[i].y + 70 === player.y) {
+            cannons.children[i].kill();
+        }
+    }
+    score = score  + (20 - score % 20);
+    levelUp();
+
+}
 // This function adds takes away health when timer runs and sets the new text.
 // It also does this when a key has been pressed so that the health, score and level
 // are correct.
+
+function levelUp() {
+    level ++;
+    if(health <= 91) {
+        health = health + 10;
+    }
+    else {
+        health = 101;
+    }
+    levelText.setText('Level: ' + level);
+    timer = timer/1.2;
+    timerRun.timer.events = [];
+    timerRun = game.time.events.loop(timer, updateCounter, this);
+}
 
 function updateCounter() {
     if(!gameMenu) {
@@ -307,11 +334,13 @@ function updateCounter() {
     }
 }
 
+var justPressed = false;
+
 //The other of the big functions.
 // 1) Checks if health is over 0. If not, it runs the gameOver-function (only once though).
 // 2) Checks if up-, left- or right-key is down.
 // 3) Checks if the button has already been pressed this time, if it has it does nothing
-var justPressed = false;
+
 
 function update() {
     if(!gameMenu) {
@@ -358,18 +387,9 @@ function update() {
                     // and adds the new one
 
                     if(score >= 20 && score % 20 === 0) {
-                        level ++;
-                        if(health <= 91) {
-                            health = health + 10;
-                        }
-                        else {
-                            health = 101;
-                        }
-                        timer = timer/1.2;
-                        timerRun.timer.events = [];
-                        timerRun = game.time.events.loop(timer, updateCounter, this);
+                        levelUp();
                     }
-                    if(score % 11 === 0) {
+                    if(score === 25 || score % 40 === 0) {
                         buildRocket();
                     }
                     updateCounter();
@@ -434,21 +454,11 @@ function update() {
                     // and adds the new one
 
                     if(score >= 20 && score % 20 === 0) {
-                        level ++;
-                        if(health <= 91) {
-                            health = health + 10;
-                        }
-                        else {
-                            health = 101;
-                        }
-                        levelText.setText('Level: ' + level);
-                        timer = timer/1.2;
-                        timerRun.timer.events = [];
-                        timerRun = game.time.events.loop(timer, updateCounter, this);
+                        levelUp();
                     };
-                    if(score % 11 === 0) {
+                    if(score === 25 || score % 40 === 0) {
                         buildRocket();
-                    }
+                    };
                     updateCounter();
                     enemyCount = 0;
                 };
@@ -510,21 +520,11 @@ function update() {
                     // and adds the new one
 
                     if(score >= 20 && score % 20 === 0) {
-                        level ++;
-                        if(health <= 90) {
-                            health = health + 10
-                        }
-                        else {
-                            health = 101
-                        };
-                        levelText.setText('Level: ' + level);
-                        timer = timer/1.2;
-                        timerRun.timer.events = [];
-                        timerRun = game.time.events.loop(timer, updateCounter, this);
+                        levelUp();
                     };
-                    if(score % 11 === 0) {
+                    if(score === 25 || score % 40 === 0) {
                         buildRocket();
-                    }
+                    };
                     updateCounter();
                     enemyCount = 0;
                 };
@@ -622,23 +622,14 @@ function gameOver() {
     button = game.add.button(game.world.centerX - 110, 400, 'playbutton', reset, this, 0, 0, 0);
     button2 = game.add.button(game.world.centerX - 110, 500, 'menubutton', startGame, this, 0, 0, 0);
     gameMenu = !gameMenu;
-    var name = prompt("Add your name to your score to the scoreboard!", "");
-    var newChildRef = ref.push();
-    newChildRef.set({
-        name: name,
-        score: score
-    });
+    // var name = prompt("Add your name to your score to the scoreboard!", "");
+    // var newChildRef = ref.push();
+    // newChildRef.set({
+    //     name: name,
+    //     score: score
+    // });
     getData();
 };
-
-function jumpForward() {
-    cannonsound.play('sound');
-    for (var i = 0; i < cannons.children.length; i++) {
-        if(cannons.children[i].x === player.x && cannons.children[i].y + 70 === player.y) {
-            cannons.children[i].kill();
-        }
-    }
-}
 
 // function that starts the game.
 
