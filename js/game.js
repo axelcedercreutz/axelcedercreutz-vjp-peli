@@ -10,6 +10,7 @@ function preload() {
     game.load.spritesheet('menubutton', 'assets/images/menubutton.png', 220, 90, 2);
     game.load.spritesheet('infobutton', 'assets/images/infobutton.png', 220, 90, 2);
     game.load.spritesheet('startscreen','assets/images/startscreen.jpg',600,400);
+    game.load.spritesheet('basicscreen', 'assets/images/basicscreen.jpg', 600, 400);
     game.load.spritesheet('river','assets/images/river.jpg',600,400);
     game.load.spritesheet('logo', 'assets/images/logo.png', 300, 270);
     
@@ -117,11 +118,11 @@ function create() {
     cannonsound.addMarker('sound', 0, 1.0);
     splashsound.addMarker('sound', 0, 0.5, 0.4);
 
-    scoreText = game.add.text(game.world.centerX, game.world.centerY + 40, 'Score: 0', { font: "32px Arial", fill: "#ffffff", align: "center" });
+    scoreText = game.add.text(330, 30, '0', { font: "32px Arial Black", fill: "#ffffff", align: "center" });
     scoreText.anchor.setTo(0.5, 0.5);
-    text = game.add.text(game.world.centerX, game.world.centerY, 'Health: 100', { font: "32px Arial", fill: "#ffffff", align: "center" });
+    text = game.add.text(game.world.centerX, game.world.centerY, 'Health: 100', { font: "32px Arial Black", fill: "#ffffff", align: "center" });
     text.anchor.setTo(0.5, 0.5);
-    levelText = game.add.text(game.world.centerX, 20, 'Level: 1', { font: "32px Arial", fill: "#ffffff", align: "center" });
+    levelText = game.add.text(game.world.centerX, 30, 'Level: 1', { font: "32px Arial Black", fill: "#ffffff", align: "center" });
     levelText.anchor.setTo(0.5, 0.5);
 
     game.physics.arcade.enable([ enemies, player, cannons ], Phaser.Physics.ARCADE);
@@ -287,50 +288,50 @@ function updateCounter() {
         if(health > 0) {
             health --;
         }
-        text.setText('Health: ' + health);
-        scoreText.setText('Score: ' + score);
+        scoreText.kill();
+        scoreText = game.add.text(330, 10, score, { font: "32px Arial Black", fill: "#ffffff", align: "center" });
         levelText.setText('Level: ' + level);
         if(health >= 90) {
             healthImage.kill();
-            healthImage = game.add.sprite(healthImage.x, 450, 'health100');
+            healthImage = game.add.sprite(20, 18, 'health100');
         }
         else if(health >= 80 && health < 90) {
             healthImage.kill();
-            healthImage = game.add.image(healthImage.x, 450, 'health90');
+            healthImage = game.add.image(20, 18, 'health90');
         }
         else if(health >= 70 && health < 80) {
             healthImage.kill();
-            healthImage = game.add.image(healthImage.x, 450, 'health80');
+            healthImage = game.add.image(20, 18, 'health80');
         }
         else if(health >= 60 && health < 70) {
             healthImage.kill();
-            healthImage = game.add.image(healthImage.x, 450, 'health70');
+            healthImage = game.add.image(20, 18, 'health70');
         }
         else if(health >= 50 && health < 60) {
             healthImage.kill();
-            healthImage = game.add.image(healthImage.x, 450, 'health60');
+            healthImage = game.add.image(20, 18, 'health60');
         }
         else if(health >= 40 && health < 50) {
             healthImage.kill();
-            healthImage = game.add.image(healthImage.x, 450, 'health50');
+            healthImage = game.add.image(20, 18, 'health50');
         }
         else if(health >= 30 && health < 40) {
             healthImage.kill();
-            healthImage = game.add.image(healthImage.x, 450, 'health40');
+            healthImage = game.add.image(20, 18, 'health40');
         }
         else if(health >= 20 && health < 30) {
             healthImage.kill();
-            healthImage = game.add.image(healthImage.x, 450, 'health30');
+            healthImage = game.add.image(20, 18, 'health30');
         }
         else if(health >= 10 && health < 20) {
             healthImage.kill();
-            healthImage = game.add.image(healthImage.x, 450, 'health20');
+            healthImage = game.add.image(20, 18, 'health20');
         }
         else {
             healthImage.kill();
-            healthImage = game.add.image(healthImage.x, 450, 'health10');
+            healthImage = game.add.image(20, 18, 'health10');
         }
-        healthImage.scale.setTo(0.3, 0.3);
+        healthImage.scale.setTo(0.6, 0.4);
     }
 }
 
@@ -409,7 +410,6 @@ function update() {
                 if(pressTime != leftKey.timeDown) {
                     if(player.x <= 150) {
                         player.x = 0;
-                        healthImage.x = 24;
                         for (var i = 0; i < enemies.children.length; i++) {
                             enemies.children[i].position.y += 100;
                         }
@@ -421,7 +421,6 @@ function update() {
                     }
                     else{
                         player.x = player.x - 150;
-                        healthImage.x = healthImage.x - 150;
                         for (var i = 0; i < enemies.children.length; i++) {
                             enemies.children[i].position.y += 100;
                         }
@@ -476,7 +475,6 @@ function update() {
                 if(pressTime != rightKey.timeDown) {
                     if(player.x >= 150){
                         player.x = 300;
-                        healthImage.x = 324;
                         for (var i = 0; i < enemies.children.length; i++) {
                             enemies.children[i].position.y += 100;
                         };
@@ -488,7 +486,6 @@ function update() {
                     }
                     else {
                         player.x = player.x + 150;
-                        healthImage.x = healthImage.x + 150;
                         for (var i = 0; i < enemies.children.length; i++) {
                             enemies.children[i].position.y += 100;
                         };
@@ -547,10 +544,11 @@ function update() {
             };
         };
     }
-    //if gameMenu is true it either shows the menu or instruction screen
+    //if gameMenu is true, it either shows the menu or instruction screen
     else {
         if(counterMenu === 0) {
             startGame();
+            logo.visible = true;
             counterMenu ++;
         };
         if(instructionMenu) {
@@ -591,10 +589,13 @@ function gameInstruction() {
     button.inputEnabled = false;
     button.visible = false;
     game.stage.backgroundColor = '#000000';
-    menuText.setText('How to play the game?\n Watch out for the stones! \n Use left, right and up\n arrows to move');
+    logo.visible = false;
+    menuText.kill();
+    menuText = game.add.text(game.world.centerX - 175, 210, ' How to play the game? \n \n Watch out for the stones! \n Use left, right and up\n arrows to move. \n Fishcannons give you a level-up!', { font: "24px Arial", fill: "#2aa8bf", align: "center" });
+    
     if(button2 !== undefined) {
         button2.kill();
-        button2 = game.add.button(game.world.centerX - 100, 350, 'menubutton', backInstruction, this, 1, 2, 0);
+        button2 = game.add.button(game.world.centerX - 100, 450, 'menubutton', backInstruction, this, 1, 2, 0);
     };
 };
 
@@ -609,6 +610,9 @@ function gameOver() {
     deathCount ++;
     health = 0;
     updateCounter();
+    scoreText.kill();
+    scoreText = game.add.text(game.world.centerX - 70, game.world.centerY - 60, 'Score: \n' + score, { font: "40px Arial Black", fill: "#ffffff", align: "center" });
+    
 
     for (var i = 0; i < enemies.children.length; i++) {
         enemies.children[i].kill();
