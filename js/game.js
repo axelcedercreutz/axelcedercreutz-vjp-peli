@@ -574,11 +574,11 @@ function startGame() {
     if(button !== undefined) {
         button.kill();
     };
-    button = game.add.button(game.world.centerX - 100, 350, 'playbutton', start, this, 1, 2, 0); 
+    button = game.add.button(game.world.centerX - 105, 350, 'playbutton', start, this, 1, 2, 0); 
     if(button2 !== undefined) {
         button2.kill();
     };
-    button2 = game.add.button(game.world.centerX - 100, 450, 'infobutton', instruction, this, 1, 2, 0);
+    button2 = game.add.button(game.world.centerX - 105, 450, 'infobutton', instruction, this, 1, 2, 0);
 };
 
 // What is shown in the instructions-screen. First makes the play-button invisible, then sets the background and sets the text.
@@ -594,7 +594,7 @@ function gameInstruction() {
     
     if(button2 !== undefined) {
         button2.kill();
-        button2 = game.add.button(game.world.centerX - 100, 450, 'menubutton', backInstruction, this, 1, 2, 0);
+        button2 = game.add.button(game.world.centerX - 105, 450, 'menubutton', backInstruction, this, 1, 2, 0);
     };
 };
 
