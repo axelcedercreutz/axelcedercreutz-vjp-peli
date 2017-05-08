@@ -10,7 +10,6 @@ function preload() {
     game.load.spritesheet('menubutton', 'assets/images/menubutton.png', 220, 90, 2);
     game.load.spritesheet('infobutton', 'assets/images/infobutton.png', 220, 90, 2);
     game.load.spritesheet('startscreen','assets/images/startscreen.jpg',600,400);
-    game.load.spritesheet('basicscreen', 'assets/images/basicscreen.jpg', 600, 400);
     game.load.spritesheet('river','assets/images/river.jpg',600,400);
     game.load.spritesheet('logo', 'assets/images/logo.png', 300, 270);
     
