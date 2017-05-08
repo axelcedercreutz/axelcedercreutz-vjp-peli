@@ -368,7 +368,7 @@ function update() {
                     pressTime = upKey.timeDown;
                     enemyCount ++;
                     resurrect();
-                    if(level >= 4 && doubleCreated === 0) {
+                    if(level >= 5 && doubleCreated === 0) {
                         if(Math.floor(Math.random() * 2) === 1) {
                             enemyCount ++;
                             resurrect();
@@ -433,7 +433,7 @@ function update() {
                     pressTime = leftKey.timeDown;
                     enemyCount ++;
                     resurrect();
-                    if(level >= 4 && doubleCreated === 0) {
+                    if(level >= 5 && doubleCreated === 0) {
                         if(Math.floor(Math.random() * 2) === 1) {
                             enemyCount ++;
                             resurrect();
@@ -497,7 +497,7 @@ function update() {
                     pressTime = rightKey.timeDown;
                     enemyCount ++;
                     resurrect();
-                    if(level >= 4 && doubleCreated === 0) {
+                    if(level >= 5 && doubleCreated === 0) {
                         if(Math.floor(Math.random() * 2) === 1) {
                             enemyCount ++;
                             resurrect();
