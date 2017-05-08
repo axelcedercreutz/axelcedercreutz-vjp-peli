@@ -51,6 +51,7 @@ var enemyCount = 0;
 var oldX;
 var doubleCreated = 0;
 var doubleCreatedCount = 0;
+var rocketX;
 
 // global variables for the text that's always on the screen
 var health = 100;
@@ -136,6 +137,10 @@ function create() {
 // then it adds the physics for the enemy.
 
 function resurrect() {
+    // If there's been two enemies created it adds to the double count
+    if(enemyCount === 2) {
+        doubleCreated ++;
+    }
     //position that the enemy is placed
     var x = Math.floor(Math.random() * 3) * 150;
     var y = 0;
@@ -181,11 +186,7 @@ function resurrect() {
         }
     }
 
-    // If there's been two enemies created it adds to the double count
-
-    if(enemyCount === 2) {
-        doubleCreated ++;
-    }
+    
     else if(x === oldX) {
         if(x === 0) {
             x = 150;
@@ -220,15 +221,28 @@ function buildRocket() {
         x = x - 150;
     }
     for (var i = 1; i < enemies.children.length; i++) {
-        if(enemies.children[i].x === x && enemies.children[i].y === y){
-            if(x + 150 === enemies.children[i - 1].x && enemies.children[i - 1].y === y) {
-                x = 0;
+        if (x === enemies.children[i].position.x &&
+            y === enemies.children[i].position.y) {
+            if(x === 0) {
+                x = x + 150;
+                if(x === enemies.children[i - 1].position.x &&
+                   y === enemies.children[i - 1].position.y) {
+                    x = 300;
+                }
             }
-            else if (x - 150 === enemies.children[i - 1].x && enemies.children[i - 1].y === y) {
-                x = 300;
+            else if(x === 150) {
+                x = x + 150;
+                if(x === enemies.children[i - 1].position.x &&
+                   y === enemies.children[i - 1].position.y) {
+                    x = 0;
+                }
             }
-            else {
+            else {
                 x = x - 150;
+                if(x === enemies.children[i - 1].position.x &&
+                   y === enemies.children[i - 1].position.y) {
+                    x = 0;
+                }
             }
         }
     }
@@ -298,6 +312,7 @@ function updateCounter() {
 // 2) Checks if up-, left- or right-key is down.
 // 3) Checks if the button has already been pressed this time, if it has it does nothing
 var justPressed = false;
+
 function update() {
     if(!gameMenu) {
         menuText.setText('');
@@ -354,7 +369,7 @@ function update() {
                         timerRun.timer.events = [];
                         timerRun = game.time.events.loop(timer, updateCounter, this);
                     }
-                    if(score % 1 === 0) {
+                    if(score % 11 === 0) {
                         buildRocket();
                     }
                     updateCounter();
@@ -431,7 +446,7 @@ function update() {
                         timerRun.timer.events = [];
                         timerRun = game.time.events.loop(timer, updateCounter, this);
                     };
-                    if(score % 1 === 0) {
+                    if(score % 11 === 0) {
                         buildRocket();
                     }
                     updateCounter();
@@ -507,7 +522,7 @@ function update() {
                         timerRun.timer.events = [];
                         timerRun = game.time.events.loop(timer, updateCounter, this);
                     };
-                    if(score % 1 === 0) {
+                    if(score % 11 === 0) {
                         buildRocket();
                     }
                     updateCounter();
@@ -617,6 +632,7 @@ function gameOver() {
 };
 
 function jumpForward() {
+    cannonsound.play('sound');
     for (var i = 0; i < cannons.children.length; i++) {
         if(cannons.children[i].x === player.x && cannons.children[i].y + 70 === player.y) {
             cannons.children[i].kill();
