@@ -3,26 +3,26 @@ var game = new Phaser.Game(400, 600, Phaser.CANVAS, 'phaser-example', { preload:
 var leaderboard = [];
 // defines the preloaded things
 function preload() {
-    game.load.spritesheet('player', 'assets/fish-sprite.png', 80, 80, 8);
-    game.load.spritesheet('rock', 'assets/rock-sprite.png', 80, 80);
-    game.load.spritesheet('cannon', 'assets/cannon.png', 80, 80);
-    game.load.spritesheet('playbutton', 'assets/playbutton.png', 220, 90, 2);
-    game.load.spritesheet('menubutton', 'assets/menubutton.png', 220, 90, 2);
-    game.load.spritesheet('infobutton', 'assets/infobutton.png', 220, 90, 2);
-    game.load.spritesheet('startscreen','assets/startscreen.jpg',600,400);
-    game.load.spritesheet('river','assets/river.jpg',600,400);
-    game.load.spritesheet('logo', 'assets/logo.png', 300, 270);
+    game.load.spritesheet('player', 'assets/images/fish-sprite.png', 80, 80, 8);
+    game.load.spritesheet('rock', 'assets/images/rock-sprite.png', 80, 80);
+    game.load.spritesheet('cannon', 'assets/images/cannon.png', 80, 80);
+    game.load.spritesheet('playbutton', 'assets/images/playbutton.png', 220, 90, 2);
+    game.load.spritesheet('menubutton', 'assets/images/menubutton.png', 220, 90, 2);
+    game.load.spritesheet('infobutton', 'assets/images/infobutton.png', 220, 90, 2);
+    game.load.spritesheet('startscreen','assets/images/startscreen.jpg',600,400);
+    game.load.spritesheet('river','assets/images/river.jpg',600,400);
+    game.load.spritesheet('logo', 'assets/images/logo.png', 300, 270);
     
-    game.load.spritesheet('health10', 'assets/health10.png', 50, 170);
-    game.load.spritesheet('health20', 'assets/health20.png', 50, 170);
-    game.load.spritesheet('health30', 'assets/health30.png', 50, 170);
-    game.load.spritesheet('health40', 'assets/health40.png', 50, 170);
-    game.load.spritesheet('health50', 'assets/health50.png', 50, 170);
-    game.load.spritesheet('health60', 'assets/health60.png', 50, 170);
-    game.load.spritesheet('health70', 'assets/health70.png', 50, 170);
-    game.load.spritesheet('health80', 'assets/health80.png', 50, 170);
-    game.load.spritesheet('health90', 'assets/health90.png', 50, 170);
-    game.load.spritesheet('health100', 'assets/health100.png', 50, 170);
+    game.load.spritesheet('health10', 'assets/images/health10.png', 50, 170);
+    game.load.spritesheet('health20', 'assets/images/health20.png', 50, 170);
+    game.load.spritesheet('health30', 'assets/images/health30.png', 50, 170);
+    game.load.spritesheet('health40', 'assets/images/health40.png', 50, 170);
+    game.load.spritesheet('health50', 'assets/images/health50.png', 50, 170);
+    game.load.spritesheet('health60', 'assets/images/health60.png', 50, 170);
+    game.load.spritesheet('health70', 'assets/images/health70.png', 50, 170);
+    game.load.spritesheet('health80', 'assets/images/health80.png', 50, 170);
+    game.load.spritesheet('health90', 'assets/images/health90.png', 50, 170);
+    game.load.spritesheet('health100', 'assets/images/health100.png', 50, 170);
     
     game.load.audio('killsound', 'assets/audio/killsound.wav');
     game.load.audio('splashsound', 'assets/audio/splashsound.wav');
