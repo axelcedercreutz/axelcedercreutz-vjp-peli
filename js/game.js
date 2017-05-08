@@ -252,6 +252,47 @@ function updateCounter() {
         text.setText('Health: ' + health);
         scoreText.setText('Score: ' + score);
         levelText.setText('Level: ' + level);
+        if(health >= 90) {
+            healthImage.kill();
+            healthImage = game.add.image(175, 430, 'health100');
+        }
+        else if(health >= 80 && health < 90) {
+            healthImage.kill();
+            healthImage = game.add.image(175, 430, 'health90');
+        }
+        else if(health >= 70 && health < 80) {
+            healthImage.kill();
+            healthImage = game.add.image(175, 430, 'health80');
+        }
+        else if(health >= 60 && health < 70) {
+            healthImage.kill();
+            healthImage = game.add.image(175, 430, 'health70');
+        }
+        else if(health >= 50 && health < 60) {
+            healthImage.kill();
+            healthImage = game.add.image(175, 430, 'health60');
+        }
+        else if(health >= 40 && health < 50) {
+            healthImage.kill();
+            healthImage = game.add.image(175, 430, 'health50');
+        }
+        else if(health >= 30 && health < 40) {
+            healthImage.kill();
+            healthImage = game.add.image(175, 430, 'health40');
+        }
+        else if(health >= 20 && health < 30) {
+            healthImage.kill();
+            healthImage = game.add.image(175, 430, 'health30');
+        }
+        else if(health >= 10 && health < 20) {
+            healthImage.kill();
+            healthImage = game.add.image(175, 430, 'health20');
+        }
+        else {
+            healthImage.kill();
+            healthImage = game.add.image(175, 430, 'health10');
+        }
+        healthImage.scale.setTo(0.3, 0.3);
     }
 }
 
@@ -266,8 +307,8 @@ function update() {
         if(health > 0) {
             if(upKey.isDown){
                 if(!justPressed) {
-                splashsound.play('sound');
-        }
+                    splashsound.play('sound');
+                }
                 justPressed = true;
                 // 4) If the statment below is true, the function first moves all enemies,
                 // changes the pressTime to the time that the button was pressed, creates a new enemy
@@ -564,13 +605,13 @@ function gameOver() {
     button = game.add.button(game.world.centerX - 110, 400, 'playbutton', reset, this, 0, 0, 0);
     button2 = game.add.button(game.world.centerX - 110, 500, 'menubutton', startGame, this, 0, 0, 0);
     gameMenu = !gameMenu;
-    // var name = prompt("Add your name to your score to the scoreboard!", "");
-    // var newChildRef = ref.push();
-    // newChildRef.set({
-    //     name: name,
-    //     score: score
-    // });
-    // getData();
+    var name = prompt("Add your name to your score to the scoreboard!", "");
+    var newChildRef = ref.push();
+    newChildRef.set({
+        name: name,
+        score: score
+    });
+    getData();
 };
 
 function jumpForward() {
@@ -630,10 +671,12 @@ function reset() {
     cannons.createMultiple(1, 'cannon', 0, false);
 
     player = game.add.sprite(150, 470, 'player');
+    healthImage = game.add.image(150, 430, 'health100');
 
     player.scale.setTo(1.2,1.2);
     enemies.scale.setTo(1.05, 1.2);
     cannons.scale.setTo(1.05, 1.2);
+    healthImage.scale.setTo(0.3,0.3);
     
 
     player.animations.add('run');
