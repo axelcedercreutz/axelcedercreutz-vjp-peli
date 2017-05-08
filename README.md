@@ -6,3 +6,4 @@ Kuvat ovat taustakuvia lukuunottamatta itsetehtyjä. Ääni tehosteista tykki, k
 Pelissä vaikeustaso nousee asteittain. Ensin väisteltävänä on aina yksi kivi kolmen rivin levyisessä joessa. Tason 5 jälkeen on kuitenkin mahdollista, että kiviä tulee yhtäaikaa kaksi, jolloin väistössä pitää olla jo vähän suunnitelmallisuutta. Ajankulu nopeutuu pikku hiljaa, ja jäljellä olevasta ajasta pelaajalle kertoo valkoinen palkki pelialueen vasemmassa yläkulmassa.
 Pelissä on highscore, jonka avulla peliä voi pelata kavereita vastaan, sillä pisteet tallentuvat yleiseen listaukseen, jossa näkyville pääsevät kymmenen parasta tulosta.
 Peli toimii virheettömästi ainakin Windows- ja Apple-koneilla Chrome-selaimella.
+LISÄÄ ITSE "TEIN PROJEKTIN TUULIN/AXUN KANSSA"!
