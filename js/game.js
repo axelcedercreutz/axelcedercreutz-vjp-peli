@@ -277,7 +277,7 @@ function levelUp() {
         health = 101;
     }
     levelText.setText('Level: ' + level);
-    timer = timer/1.2;
+    timer = timer/2;
     timerRun.timer.events = [];
     timerRun = game.time.events.loop(timer, updateCounter, this);
 }
@@ -286,55 +286,56 @@ function updateCounter() {
     if(!gameMenu) {
         if(health > 0) {
             health --;
-        }
-        scoreText.kill();
-        scoreText = game.add.text(330, 10, score, { font: "32px Arial Black", fill: "#ffffff", align: "center" });
-        levelText.setText('Level: ' + level);
-        if(health >= 90) {
+            if(health >= 90) {
             healthImage.kill();
             healthImage = game.add.sprite(20, 18, 'health100');
+            }
+            else if(health >= 80 && health < 90) {
+                healthImage.kill();
+                healthImage = game.add.image(20, 18, 'health90');
+            }
+            else if(health >= 70 && health < 80) {
+                healthImage.kill();
+                healthImage = game.add.image(20, 18, 'health80');
+            }
+            else if(health >= 60 && health < 70) {
+                healthImage.kill();
+                healthImage = game.add.image(20, 18, 'health70');
+            }
+            else if(health >= 50 && health < 60) {
+                healthImage.kill();
+                healthImage = game.add.image(20, 18, 'health60');
+            }
+            else if(health >= 40 && health < 50) {
+                healthImage.kill();
+                healthImage = game.add.image(20, 18, 'health50');
+            }
+            else if(health >= 30 && health < 40) {
+                healthImage.kill();
+                healthImage = game.add.image(20, 18, 'health40');
+            }
+            else if(health >= 20 && health < 30) {
+                healthImage.kill();
+                healthImage = game.add.image(20, 18, 'health30');
+            }
+            else if(health >= 10 && health < 20) {
+                healthImage.kill();
+                healthImage = game.add.image(20, 18, 'health20');
+            }
+            else {
+                healthImage.kill();
+                healthImage = game.add.image(20, 18, 'health10');
+            }
+            scoreText.kill();
+            scoreText = game.add.text(330, 10, score, { font: "32px Arial Black", fill: "#ffffff", align: "center" });
+            levelText.setText('Level: ' + level);
+            healthImage.scale.setTo(0.6, 0.4);
         }
-        else if(health >= 80 && health < 90) {
-            healthImage.kill();
-            healthImage = game.add.image(20, 18, 'health90');
-        }
-        else if(health >= 70 && health < 80) {
-            healthImage.kill();
-            healthImage = game.add.image(20, 18, 'health80');
-        }
-        else if(health >= 60 && health < 70) {
-            healthImage.kill();
-            healthImage = game.add.image(20, 18, 'health70');
-        }
-        else if(health >= 50 && health < 60) {
-            healthImage.kill();
-            healthImage = game.add.image(20, 18, 'health60');
-        }
-        else if(health >= 40 && health < 50) {
-            healthImage.kill();
-            healthImage = game.add.image(20, 18, 'health50');
-        }
-        else if(health >= 30 && health < 40) {
-            healthImage.kill();
-            healthImage = game.add.image(20, 18, 'health40');
-        }
-        else if(health >= 20 && health < 30) {
-            healthImage.kill();
-            healthImage = game.add.image(20, 18, 'health30');
-        }
-        else if(health >= 10 && health < 20) {
-            healthImage.kill();
-            healthImage = game.add.image(20, 18, 'health20');
-        }
-        else {
-            healthImage.kill();
-            healthImage = game.add.image(20, 18, 'health10');
-        }
-        healthImage.scale.setTo(0.6, 0.4);
     }
 }
 
 var justPressed = false;
+var oneTime = false;
 
 //The other of the big functions.
 // 1) Checks if health is over 0. If not, it runs the gameOver-function (only once though).
@@ -343,6 +344,7 @@ var justPressed = false;
 
 
 function update() {
+    console.log(instructionMenu);
     if(!gameMenu) {
         menuText.setText('');
         if(health > 0) {
@@ -394,6 +396,10 @@ function update() {
                     }
                     updateCounter();
                     enemyCount = 0;
+                    if(health <= 1) {
+                        gameOver();
+                        gameMenu = !gameMenu;
+                    }
                 }
             }
             else if (leftKey.isDown){
@@ -459,6 +465,10 @@ function update() {
                     };
                     updateCounter();
                     enemyCount = 0;
+                    if(health <= 1) {
+                        gameOver();
+                        gameMenu = !gameMenu;
+                    }
                 };
             }
             else if (rightKey.isDown) {
@@ -522,6 +532,10 @@ function update() {
                         buildRocket();
                     };
                     updateCounter();
+                    if(health <= 1) {
+                        gameOver();
+                        gameMenu = !gameMenu;
+                    }
                     enemyCount = 0;
                 };
             } else {
@@ -545,13 +559,14 @@ function update() {
     }
     //if gameMenu is true, it either shows the menu or instruction screen
     else {
+        if(instructionMenu) {
+            console.log("testing");
+            gameInstruction();
+        };
         if(counterMenu === 0) {
             startGame();
             logo.visible = true;
             counterMenu ++;
-        };
-        if(instructionMenu) {
-            gameInstruction();
         };
     };
 };
@@ -559,12 +574,13 @@ function update() {
 // First screen. Makes player invisible, sets the background, the texts and buttons.
 
 function startGame() {
+    console.log("something happens");
     backgroundImage.visible = false;
     player.visible = false;
     if(menuText === undefined) {
         menuText = game.add.text(game.world.centerX, 530, '', { font: "24px Arial", fill: "#000000", align: "center" });
     } else {
-        clicksound.play('sound');
+        // clicksound.play('sound');
     }
     menuText.setText('');
     menuText.anchor.setTo(0.5, 0.5);
@@ -584,7 +600,6 @@ function startGame() {
 // What is shown in the instructions-screen. First makes the play-button invisible, then sets the background and sets the text.
 
 function gameInstruction() {
-    
     button.inputEnabled = false;
     button.visible = false;
     game.stage.backgroundColor = '#000000';
@@ -602,17 +617,17 @@ function gameInstruction() {
 // sets deathcount to 1, health to 0 and updates the Counter.
 // Kills the enemies that are alive and kills the player.
 // adds the restart button.
-
+function back() {
+    counterMenu = 0;
+    startGame();
+}
 function gameOver() {
-    game.stage.backgroundColor = '#992d2d';
     killsound.play('sound');
-    deathCount ++;
     health = 0;
     updateCounter();
     scoreText.kill();
     scoreText = game.add.text(game.world.centerX - 70, game.world.centerY - 60, 'Score: \n' + score, { font: "40px Arial Black", fill: "#ffffff", align: "center" });
-    
-
+    // $('#body').append('<input id="input" type="text" style="position: absolute; left: 100px; top: 300px; width: 200px; height: 50px;" placeholder="Your name"/><button id="buttonSubmit"></button');
     for (var i = 0; i < enemies.children.length; i++) {
         enemies.children[i].kill();
     }
@@ -620,11 +635,12 @@ function gameOver() {
         cannons.children[i].kill();
     }
     player.kill();
-    healthImage.kill();
+    healthImage.visible = false;
 
     button = game.add.button(game.world.centerX - 110, 400, 'playbutton', reset, this, 0, 0, 0);
-    button2 = game.add.button(game.world.centerX - 110, 500, 'menubutton', startGame, this, 0, 0, 0);
+    button2 = game.add.button(game.world.centerX - 110, 500, 'menubutton', back, this, 0, 0, 0);
     gameMenu = !gameMenu;
+    oneTime = true;
     var name = prompt("Add your name to your score to the scoreboard!", "");
     var newChildRef = ref.push();
     newChildRef.set({
@@ -632,6 +648,7 @@ function gameOver() {
         score: score
     });
     getData();
+    deathCount ++;
 };
 
 // function that starts the game.
@@ -654,8 +671,7 @@ function backInstruction() {
     counterMenu = 0;
     button.inputEnabled = true;
     button.visible = true;
-    instructionMenu = false;
-    game.stage.backgroundColor = '#00FF00';
+    instructionMenu = !instructionMenu;
 };
 
 // Adds the player to the bottom center, empties the enemy group and creates a new one. Set the scale.
@@ -696,5 +712,6 @@ function reset() {
     timer =  Phaser.Timer.SECOND;
     timerRun = game.time.events.loop(timer, updateCounter, this);
     timerRun;
+    oneTime = !oneTime;
 };
 

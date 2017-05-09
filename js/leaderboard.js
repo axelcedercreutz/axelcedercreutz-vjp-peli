@@ -1,4 +1,5 @@
 $('.game-section').hide();
+var name;
 var ref = new Firebase("https://vjp-peli-5db4f.firebaseio.com/");
 ref = ref.child("leaderboard");
 var array = [];
@@ -28,10 +29,16 @@ function writeTable(array) {
     // cache <tbody> element:
     var tbody = $('#tableBody');
     tbody.empty();
+    //creates the first row with the headers
+    var tr = $('<tr/>').appendTo(tbody);
+    tr.append('<th> Name </th>');
+    tr.append('<th> Score </th>');
+
+    //shows the 10 best scores
     if(array.length >= 10) {
         for (var i = 0; i < 10; i++) {
             // create an <tr> element, append it to the <tbody> and cache it as a variable:
-            var tr = $('<tr/>').appendTo(tbody);
+                var tr = $('<tr/>').appendTo(tbody);
             // append <td> elements to previously created <tr> element:
                 tr.append('<td>' + array[i].name + '</td>');
                 tr.append('<td>' + array[i].score  + '</td>'); 
