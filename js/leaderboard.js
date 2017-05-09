@@ -1,5 +1,4 @@
 $('.game-section').hide();
-var name;
 var ref = new Firebase("https://vjp-peli-5db4f.firebaseio.com/");
 ref = ref.child("leaderboard");
 var array = [];

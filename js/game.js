@@ -3,6 +3,8 @@ var game = new Phaser.Game(400, 600, Phaser.CANVAS, 'phaser-example', { preload:
 var leaderboard = [];
 // defines the preloaded things
 function preload() {
+
+    // all sprites for players, buttons, backgrounds and logo
     game.load.spritesheet('player', 'assets/images/fish-sprite.png', 80, 80, 8);
     game.load.spritesheet('rock', 'assets/images/rock-sprite.png', 80, 80);
     game.load.spritesheet('cannon', 'assets/images/cannon.png', 80, 80);
@@ -13,6 +15,7 @@ function preload() {
     game.load.spritesheet('river','assets/images/river.jpg',600,400);
     game.load.spritesheet('logo', 'assets/images/logo.png', 300, 270);
     
+    // all sprites for the health bar
     game.load.spritesheet('health10', 'assets/images/health10.png', 50, 170);
     game.load.spritesheet('health20', 'assets/images/health20.png', 50, 170);
     game.load.spritesheet('health30', 'assets/images/health30.png', 50, 170);
@@ -24,11 +27,13 @@ function preload() {
     game.load.spritesheet('health90', 'assets/images/health90.png', 50, 170);
     game.load.spritesheet('health100', 'assets/images/health100.png', 50, 170);
     
+    //all audio files
     game.load.audio('killsound', 'assets/audio/killsound.wav');
     game.load.audio('splashsound', 'assets/audio/splashsound.wav');
     game.load.audio('clicksound', 'assets/audio/clicksound.wav');
     game.load.audio('cannonsound', 'assets/audio/cannonsound.wav');
 }
+
 // first menu site variables
 var gameMenu = true;
 var menuText;
@@ -51,7 +56,6 @@ var enemyCount = 0;
 var oldX;
 var doubleCreated = 0;
 var doubleCreatedCount = 0;
-var rocketX;
 
 // global variables for the text that's always on the screen
 var health = 100;
@@ -73,20 +77,21 @@ var button2;
 var deathCount = 0;
 
 // This is where the game is initially created.
-// It starts with activating the physics from Phaser.js,
-// then adds the background color, creates the enemy group and creates the first enemy,
-// creates our player. Then it sets the size of the player and the enemies and
+// It starts with activating the physics from Phaser.js, gives an id to the canvas,
+// then adds the logo and images, creates the enemy group and creates the first enemy,
+// creates our player an the group for cannons and the first cannon. Then it sets the size of the player and the enemies and
 // starts the animation of the player.
+// All music is added and made accessable.
 // It writes all the text that is rendered to the screen all the time and sets the position for it.
-// It adds the game physics to the enemies and the player.
+// It adds the game physics to the enemies, the player and the cannons.
 // It adds to the global variables the keys and starts the timer.
 
 function create() {
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
+    game.canvas.id = "game";
     menuImage = game.add.image(0,0,'startscreen');
     logo = game.add.image(70, 40, 'logo')
-    game.canvas.id = "game";
     backgroundImage = game.add.image(0, 0, 'river');
     enemies = game.add.group();
     enemies.createMultiple(1, 'rock', 0, false);
@@ -152,31 +157,34 @@ function resurrect() {
     // Checking if it has created two on the last round. If it has, this determends where the next rock is placed.
     // After a double row there can only be a single row.
     if(doubleCreated === 1) {
+        //checks if the place the single one is placed is in the middle
         if(x === 150) {
             for (var i = 1; i < enemies.children.length; i++) {
 
+                //checks if there's an enemy that is positioned straight underneight the single stone
                 if (x === enemies.children[i].position.x &&
                     y + 100 === enemies.children[i].position.y){
 
+                    //checks if the second enemy is to the left or right
                     if (x + 150 === enemies.children[i - 1].position.x &&
                         y + 100 === enemies.children[i - 1].position.y) {
                          x = 0;
                     }
-
                     else if(x - 150 === enemies.children[i - 1].position.x &&
                             y + 100 === enemies.children[i - 1].position.y) {
                          x = 0;
                     }
                 }
 
+                //checks if there's an enemy that is positioned straight underneight the single stone
                 else if(x === enemies.children[i - 1].position.x &&
                         y + 100 === enemies.children[i - 1].position.y) {
 
+                    //checks if the second enemy is to the left or right
                     if (x + 150 === enemies.children[i].position.x &&
                         y + 100 === enemies.children[i].position.y) {
                         x = 300;
                     }
-
                     else if(x - 150 === enemies.children[i].position.x &&
                             y + 100 === enemies.children[i].position.y) {
                         x = 300;
@@ -186,7 +194,7 @@ function resurrect() {
         }
     }
 
-    
+    //checks if the latest one is the same
     else if(x === oldX) {
         if(x === 0) {
             x = 150;
@@ -207,8 +215,10 @@ function resurrect() {
 
 }
 
+// function that creates a cannon. It checks where the enemies are placed on the row that it's coming in on
+// to make sure that it's not placed on top of one. At the end the physics are enabled.
 
-function buildRocket() {
+function buildCannon() {
     //position that the enemy is placed
     var x = Math.floor(Math.random() * 3) * 150;
     var y = 0;
@@ -216,13 +226,15 @@ function buildRocket() {
     var key = 'cannon';
 
     var frame = game.rnd.between(0, 36);
-    //creates a new cannon
+    //defines the x-position the cannon is placed in.
     if(enemies.children[0].x === x && enemies.children[0].y === y){
         x = x - 150;
     }
     for (var i = 1; i < enemies.children.length; i++) {
+        //checks if there's an enemy in the random place
         if (x === enemies.children[i].position.x &&
             y === enemies.children[i].position.y) {
+            // checks the possible positions if it starts from 0
             if(x === 0) {
                 x = x + 150;
                 if(x === enemies.children[i - 1].position.x &&
@@ -230,6 +242,7 @@ function buildRocket() {
                     x = 300;
                 }
             }
+            // checks the possible positions if it starts from 150
             else if(x === 150) {
                 x = x + 150;
                 if(x === enemies.children[i - 1].position.x &&
@@ -237,6 +250,7 @@ function buildRocket() {
                     x = 0;
                 }
             }
+            // checks the possible positions if it starts from 300
             else {
                 x = x - 150;
                 if(x === enemies.children[i - 1].position.x &&
@@ -246,12 +260,15 @@ function buildRocket() {
             }
         }
     }
+    // creates the cannon
     cannons.getFirstDead(true, x, y, key, frame);
-    //adds the physics to the enemy
+    // adds the physics to the enemy
     game.physics.arcade.enable(cannons, Phaser.Physics.ARCADE);
 
 }
 
+// function that first plays the sound of the cannon, then kills the cannon that's collided with the player,
+// fixes the score for the next level and levels up.
 
 function jumpForward() {
     cannonsound.play('sound');
@@ -264,9 +281,6 @@ function jumpForward() {
     levelUp();
 
 }
-// This function adds takes away health when timer runs and sets the new text.
-// It also does this when a key has been pressed so that the health, score and level
-// are correct.
 
 function levelUp() {
     level ++;
@@ -281,6 +295,10 @@ function levelUp() {
     timerRun.timer.events = [];
     timerRun = game.time.events.loop(timer, updateCounter, this);
 }
+
+// This function adds takes away health when timer runs and sets the new text.
+// It also does this when a key has been pressed so that the health, score and level
+// are correct. Makes sure that the correct healthImage is shown at the right time.
 
 function updateCounter() {
     if(!gameMenu) {
@@ -344,7 +362,6 @@ var oneTime = false;
 
 
 function update() {
-    console.log(instructionMenu);
     if(!gameMenu) {
         menuText.setText('');
         if(health > 0) {
@@ -392,7 +409,7 @@ function update() {
                         levelUp();
                     }
                     if(score === 25 || score % 40 === 0) {
-                        buildRocket();
+                        buildCannon();
                     }
                     updateCounter();
                     enemyCount = 0;
@@ -461,7 +478,7 @@ function update() {
                         levelUp();
                     };
                     if(score === 25 || score % 40 === 0) {
-                        buildRocket();
+                        buildCannon();
                     };
                     updateCounter();
                     enemyCount = 0;
@@ -529,7 +546,7 @@ function update() {
                         levelUp();
                     };
                     if(score === 25 || score % 43 === 0) {
-                        buildRocket();
+                        buildCannon();
                     };
                     updateCounter();
                     if(health <= 1) {
@@ -560,7 +577,6 @@ function update() {
     //if gameMenu is true, it either shows the menu or instruction screen
     else {
         if(instructionMenu) {
-            console.log("testing");
             gameInstruction();
         };
         if(counterMenu === 0) {
@@ -574,7 +590,6 @@ function update() {
 // First screen. Makes player invisible, sets the background, the texts and buttons.
 
 function startGame() {
-    console.log("something happens");
     backgroundImage.visible = false;
     player.visible = false;
     if(menuText === undefined) {
@@ -619,6 +634,7 @@ function gameInstruction() {
 // adds the restart button.
 function back() {
     counterMenu = 0;
+    gameMenu = true;
     startGame();
 }
 function gameOver() {
