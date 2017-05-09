@@ -636,10 +636,9 @@ function gameInstruction() {
     menuText = game.add.text(game.world.centerX - 175, 210, ' How to play the game? \n \n Watch out for the stones! \n Use left, right and up\n arrows to move. \n Fishcannons give you a level-up!', { font: "24px Arial", fill: "#2aa8bf", align: "center" });
     
     if(button2 !== undefined) {
-        button2.kill();
-        
+          button2.kill(); 
     };
-    button2 = game.add.button(game.world.centerX - 105, 450, 'menubutton', backInstruction, this, 1, 0, 1);
+    button2 = game.add.button(game.world.centerX - 105, 450, 'menubutton', backInstruction, this, 1, 0, 1); 
 };
 
 // function that changes the menu counter to 0 and gameMenu to true and then goes to the homepage
