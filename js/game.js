@@ -352,8 +352,8 @@ function updateCounter() {
     }
 }
 
+//variables to make sure that certain things are just done once at a time
 var justPressed = false;
-var oneTime = false;
 
 //The other of the big functions.
 // 1) Checks if health is over 0. If not, it runs the gameOver-function (only once though).
@@ -366,9 +366,10 @@ function update() {
         menuText.setText('');
         if(health > 0) {
             if(upKey.isDown){
+                // just when the button has been pressed, the sound is played
                 if(!justPressed) {
                     splashsound.play('sound');
-                }
+                };
                 justPressed = true;
                 // 4) If the statment below is true, the function first moves all enemies,
                 // changes the pressTime to the time that the button was pressed, creates a new enemy
@@ -387,12 +388,14 @@ function update() {
                     pressTime = upKey.timeDown;
                     enemyCount ++;
                     resurrect();
+                    // makes it possible to have two stones created on one row
                     if(level >= 5 && doubleCreated === 0) {
                         if(Math.floor(Math.random() * 2) === 1) {
                             enemyCount ++;
                             resurrect();
                         }
                     }
+                    // if two has not been created
                     else {
                         doubleCreated = 0;
                     }
@@ -408,6 +411,7 @@ function update() {
                     if(score >= 20 && score % 20 === 0) {
                         levelUp();
                     }
+                    // creates the cannon
                     if(score === 25 || score % 40 === 0) {
                         buildCannon();
                     }
@@ -420,9 +424,10 @@ function update() {
                 }
             }
             else if (leftKey.isDown){
+                // just when the button has been pressed, the sound is played
                 if(!justPressed) {
-            splashsound.play('sound');
-        }
+                    splashsound.play('sound');
+                };
                 justPressed = true;
                 // 4) If the statment below is true, the function first moves the player
                 // (if it's in the middle to the far left and if it's far right to the middle)
@@ -456,18 +461,20 @@ function update() {
                     pressTime = leftKey.timeDown;
                     enemyCount ++;
                     resurrect();
+                    // makes it possible to have two stones created on one row
                     if(level >= 5 && doubleCreated === 0) {
                         if(Math.floor(Math.random() * 2) === 1) {
                             enemyCount ++;
                             resurrect();
                         }
                     }
+                    //if two has not been created
                     else {
                         doubleCreated = 0;
                     }
                     if(health <= 99) {
                         health = health + 2;
-                    }
+                    };
                     score ++;
 
                     // 5) If the score is more than 20 and evenly devided with 20 you level up,
@@ -477,6 +484,7 @@ function update() {
                     if(score >= 20 && score % 20 === 0) {
                         levelUp();
                     };
+                    // creates the cannon
                     if(score === 25 || score % 40 === 0) {
                         buildCannon();
                     };
@@ -489,9 +497,10 @@ function update() {
                 };
             }
             else if (rightKey.isDown) {
+                // just when the button has been pressed, the sound is played
                 if(!justPressed) {
-            splashsound.play('sound');
-        }
+                    splashsound.play('sound');
+                };
                 justPressed = true;
                 // 4) If the statment below is true, the function first moves the player
                 // (if it's in the middle to the far right and if it's far left to the middle)
@@ -524,12 +533,14 @@ function update() {
                     pressTime = rightKey.timeDown;
                     enemyCount ++;
                     resurrect();
+                    // makes it possible to have two stones created on one row
                     if(level >= 5 && doubleCreated === 0) {
                         if(Math.floor(Math.random() * 2) === 1) {
                             enemyCount ++;
                             resurrect();
                         };
                     }
+                    //if two has not been created
                     else {
                         doubleCreated = 0;
                     };
@@ -545,11 +556,13 @@ function update() {
                     if(score >= 20 && score % 20 === 0) {
                         levelUp();
                     };
+                    // builds the cannon at the 25th stone and at every 43rd stone after that
                     if(score === 25 || score % 43 === 0) {
                         buildCannon();
                     };
                     updateCounter();
-                    if(health <= 1) {
+                    //kills the player if the health is too low
+                    if(health <= 0) {
                         gameOver();
                         gameMenu = !gameMenu;
                     }
@@ -628,22 +641,25 @@ function gameInstruction() {
     };
 };
 
-// gameOver screen. First changes the background color to red,
-// sets deathcount to 1, health to 0 and updates the Counter.
-// Kills the enemies that are alive and kills the player.
-// adds the restart button.
+// function that changes the menu counter to 0 and gameMenu to true and then goes to the homepage
+
 function back() {
     counterMenu = 0;
     gameMenu = true;
     startGame();
 }
+
+// gameOver screen. First plays the sound,
+// sets the health to 0 and updates the Counter.
+// Kills the enemies and cannons that are alive and kills the player.
+// asks for your name for the highscore board and updates the database and gets the update back.
+// adds the restart button. Adds to the deathCount.
 function gameOver() {
     killsound.play('sound');
     health = 0;
     updateCounter();
     scoreText.kill();
     scoreText = game.add.text(game.world.centerX - 70, game.world.centerY - 60, 'Score: \n' + score, { font: "40px Arial Black", fill: "#ffffff", align: "center" });
-    // $('#body').append('<input id="input" type="text" style="position: absolute; left: 100px; top: 300px; width: 200px; height: 50px;" placeholder="Your name"/><button id="buttonSubmit"></button');
     for (var i = 0; i < enemies.children.length; i++) {
         enemies.children[i].kill();
     }
