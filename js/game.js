@@ -291,7 +291,7 @@ function levelUp() {
         health = 101;
     }
     levelText.setText('Level: ' + level);
-    timer = timer/1.3;
+    timer = timer/1.2;
     timerRun.timer.events = [];
     timerRun = game.time.events.loop(timer, updateCounter, this);
 }
