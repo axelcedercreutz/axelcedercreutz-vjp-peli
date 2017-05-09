@@ -618,11 +618,11 @@ function startGame() {
     if(button !== undefined) {
         button.kill();
     };
-    button = game.add.button(game.world.centerX - 105, 350, 'playbutton', start, this, 1, 2, 0); 
+    button = game.add.button(game.world.centerX - 105, 350, 'playbutton', start, this, 1, 0, 1); 
     if(button2 !== undefined) {
         button2.kill();
     };
-    button2 = game.add.button(game.world.centerX - 105, 450, 'infobutton', instruction, this, 1, 2, 0);
+    button2 = game.add.button(game.world.centerX - 105, 450, 'infobutton', instruction, this, 1, 0, 1);
 };
 
 // What is shown in the instructions-screen. First makes the play-button invisible, then sets the background and sets the text.
@@ -637,8 +637,9 @@ function gameInstruction() {
     
     if(button2 !== undefined) {
         button2.kill();
-        button2 = game.add.button(game.world.centerX - 105, 450, 'menubutton', backInstruction, this, 1, 2, 0);
+        
     };
+    button2 = game.add.button(game.world.centerX - 105, 450, 'menubutton', backInstruction, this, 1, 0, 1);
 };
 
 // function that changes the menu counter to 0 and gameMenu to true and then goes to the homepage
@@ -669,8 +670,8 @@ function gameOver() {
     player.kill();
     healthImage.visible = false;
 
-    button = game.add.button(game.world.centerX - 110, 400, 'playbutton', reset, this, 0, 0, 0);
-    button2 = game.add.button(game.world.centerX - 110, 500, 'menubutton', back, this, 0, 0, 0);
+    button = game.add.button(game.world.centerX - 110, 400, 'playbutton', reset, this, 1, 0, 1);
+    button2 = game.add.button(game.world.centerX - 110, 500, 'menubutton', back, this, 1, 0, 1);
     gameMenu = !gameMenu;
     oneTime = true;
     var name = prompt("Add your name to your score to the scoreboard! \n Your score was: " + score, "");
